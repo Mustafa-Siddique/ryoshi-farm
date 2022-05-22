@@ -1,22 +1,24 @@
 import logo from './logo.svg';
+import Navbar from './components/Navbar';
+import Staking from './components/Staking';
+import Footer from './components/Footer';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar/>
+      <Staking/>
+      <svg
+        width="100%"
+        className="position-absolute"
+        style={{zIndex:"0"}}
+        height="100px"
+        viewBox="0 0 500 80"
+        preserveAspectRatio="none"
+      >
+        <path d="M0,0 L0,40 Q250,120 500,40 L500,0 Z" fill="#1C1C1C" />
+      </svg>
+      <Footer/>
     </div>
   );
 }
