@@ -12,16 +12,16 @@ export default function Footer() {
         <button className="btn btn-outline-dark">PancakeSwap</button>
       </div>
       <div className="footerSocial my-3">
-        <a href="#" className="fSocial"><FaFacebookF/></a>
-        <a href="#" className="fSocial"><FaInstagram/></a>
-        <a href="#" className="fSocial"><FaRedditAlien/></a>
-        <a href="#" className="fSocial"><FaDiscord/></a>
-        <a href="#" className="fSocial"><FaTwitter/></a>
-        <a href="#" className="fSocial"><FaTelegramPlane/></a>
+        <a href="https://www.facebook.com/Ryoshitoken/" className="fSocial" target="_blank" rel="noreferrer"><FaFacebookF/></a>
+        <a href="https://www.instagram.com/ryoshitoken" className="fSocial" target="_blank" rel="noreferrer"><FaInstagram/></a>
+        <a href="https://www.instagram.com/ryoshitoken" className="fSocial" target="_blank" rel="noreferrer"><FaRedditAlien/></a>
+        <a href="https://t.co/E8u0GkUXP4?amp=1" className="fSocial" target="_blank" rel="noreferrer"><FaDiscord/></a>
+        <a href="https://twitter.com/TokenRyoshi" className="fSocial" target="_blank" rel="noreferrer"><FaTwitter/></a>
+        <a href="https://t.me/ryoshitokenofficial" className="fSocial" target="_blank" rel="noreferrer"><FaTelegramPlane/></a>
       </div>
       <div className="py-3">
-      <p className='mb-0'><a href="#" className='text-secondary'>Frequently Asked Questions</a></p>
-      <p>Copyright &copy;2022 Ryoshitoken.com. All rights reserved. Powered by <a className='text-secondary' href="https://kesaviwebsolutions.com/" target="_blank">KWS</a></p>
+      <p className='mb-0'><a href="/" className='text-secondary'>Frequently Asked Questions</a></p>
+      <p>Copyright &copy;2022 Ryoshitoken.com. All rights reserved. Powered by <a className='text-secondary' href="https://kesaviwebsolutions.com/" target="_blank" rel="noreferrer">KWS</a></p>
       </div>
     </div>
   )

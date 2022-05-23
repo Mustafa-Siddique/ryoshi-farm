@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import Navbar from './components/Navbar';
 import Staking from './components/Staking';
 import Footer from './components/Footer';
