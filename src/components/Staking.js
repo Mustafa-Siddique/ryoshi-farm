@@ -1,11 +1,69 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import logo from "../images/ryoshilogo.png";
 import eth from "../images/eth.png";
 import nft from "../images/nombre.png";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { ImCopy } from "react-icons/im";
+import {Ryoshi_Token_balance,Allowance_of_single_staking_contract,Approv_Ryoshi_Staking_Contract,Harvest_Ryoshi_Token_Staking,Staking_Ryoshi_Token,Calculate_Pending_Reward,Current_staking_balance} from './../Web3/Contract_methods'
 
 export default function Staking() {
+
+  const [balace_ryoshi, setBalace_Ryoshi] = useState(0)
+  const [checkApprove, setCheckApprove] = useState(false)
+  const [stakeAmount, setStakeAmount] = useState(0)
+  const [harvestamount, setHarvestAmount] = useState(0)
+  const [stakingBalance, setStakingBalance] = useState(0)
+
+  useEffect(()=> {
+    const init = async()=> {
+      await Ryoshi_token_Balance();
+      await CheckIfApprove();
+      const stakingbbal = await Current_staking_balance()
+      setStakingBalance(stakingbbal.stakingBalance)
+
+      const data = await Calculate_Pending_Reward();
+      setHarvestAmount(data[0])
+      console.log("stakingbbal",stakingbbal)
+    }
+  
+    setInterval(()=>{
+      init();
+    },2000)
+  }, [window.address])
+
+
+  const Ryoshi_token_Balance=async()=> {
+      const bal = await Ryoshi_Token_balance()
+      setBalace_Ryoshi(bal/10**18)
+  }
+
+  const Approve_Single_staking_Staking_token =async()=> {
+      if(checkApprove){
+       await Staking_Ryoshi_Token(stakeAmount)
+      }
+      else{
+        const data = await Approv_Ryoshi_Staking_Contract()
+        setCheckApprove(data.status)
+        await Staking_Ryoshi_Token(stakeAmount)
+
+      }
+  }
+
+  const Harverting = async()=> {
+    await Harvest_Ryoshi_Token_Staking();
+  }
+
+  const CheckIfApprove = async()=>{
+    const data = await Allowance_of_single_staking_contract()
+    if(data > 10){
+      setCheckApprove(true)
+    }
+  }
+
+  const MaxStaking = async()=> {
+    setStakeAmount(balace_ryoshi)
+  }
+  
   return (
     <div className="container-fluid staking-main">
       <div className="row justify-content-around justify-content-lg-between">
@@ -66,8 +124,8 @@ export default function Staking() {
               0x9ac5...13856
               </a> &nbsp; <ImCopy onClick={() => navigator.clipboard.writeText('0x9ac59862934ebc36072d4d8ada37c62373a13856')}/> */}
             </p>
-            <h6 className="mt-4">Your Balance: <span>0.000</span></h6>
-            <h6 className="mt-4">Staked Amount: <span>0.000</span></h6>
+            <h6 className="mt-4">Your Balance: <span>{balace_ryoshi}</span></h6>
+            <h6 className="mt-4">Staked Amount: <span>{stakingBalance}</span></h6>
             <hr />
             <div className="apr d-flex justify-content-between">
               <span>
@@ -83,11 +141,12 @@ export default function Staking() {
               <span>Harvest Lockup</span>
               <span>12 Hour(s)</span>
             </div>
-            <button className="btnFill py-3 mt-4">Approve Contract</button>
+            <input value={stakeAmount} onChange={(e)=>setStakeAmount(e.target.value)} placeholder='Stake Amount'/>
+            <button className="btnFill py-3 mt-4" onClick={()=> Approve_Single_staking_Staking_token()}>{checkApprove ? "Stake" : "Approve Contract"}</button>
             <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-5 my-auto">0.0</h5>
+              <h5 className="text-light fs-5 my-auto">{harvestamount}</h5>
               <button
-                disabled
+                onClick={()=>Harverting()}
                 className="btnFill py-3"
                 style={{ width: "fit-content" }}
               >
