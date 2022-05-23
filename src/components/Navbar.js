@@ -28,7 +28,7 @@ export default function Navbar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
                 href="#"
@@ -66,7 +66,7 @@ export default function Navbar() {
                   </a>
                 </li>
                 <li>
-                  <hr className="dropdown-divider" />
+                  <hr className="dropdown-divider bg-secondary" />
                 </li>
                 <li>
                   <a className="dropdown-item" href="#">
@@ -79,14 +79,14 @@ export default function Navbar() {
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> */}
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
-                Bridge
+              <a className="nav-link" href="https://www.dextools.io/app/ether/pair-explorer/0x5e4d0baf57a68956180580b94c1271c37558d300">
+                Back to main website
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="https://www.dextools.io/app/ether/pair-explorer/0x5e4d0baf57a68956180580b94c1271c37558d300">
                 Swap
               </a>
             </li>
@@ -98,16 +98,6 @@ export default function Navbar() {
             <li className="nav-item">
               <a className="nav-link" href="#">
                 NFT
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Play Game
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Community
               </a>
             </li>
             <li className="nav-item">

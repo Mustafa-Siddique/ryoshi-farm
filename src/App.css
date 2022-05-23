@@ -4,7 +4,21 @@
 }
 .navbar{
   max-width: 1440px;
+  z-index: 1;
   margin: auto;
+}
+.navbar .dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0; /* remove the gap so it doesn't close */
+}
+.navbar .dropdown-menu{
+  background-color: #292929;
+  border: 1px solid #616161;
+  z-index: 100 !important;
+  position: absolute !important;
+}
+.navbar .dropdown-menu li:hover a{
+  background-color: #181818 !important;
 }
 .navbar-brand img{
   max-height: 75px;
@@ -35,11 +49,25 @@
 
 /* STAKING MAIN */
 .staking-main{
-  max-width: 1440px;
-  margin: 100px auto 50px auto;
-  z-index: -2;
+  position: relative;
   color: #A4A4A4;
   font-family: DM Sans;
+}
+/* .staking-main::after{
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100vh;
+  background-color: #1C1C1C;
+  border-radius: 0 0 50% 50%;
+  transform: scale(1.5);
+} */
+.staking-main .row{
+  max-width: 1440px;
+  margin: 100px auto 50px auto;
 }
 .staking-main a{
   color: #A4A4A4;
@@ -73,4 +101,16 @@
 .footer{
   background-color: #F2CA66;
   height: max-content;
+}
+.fSocial{
+  color: #1A1A1A;
+  font-size: 24px;
+  padding: 0px 5px 5px 5px;
+  border-radius: 3px;
+  margin: 0 5px;
+  background-color: #C7A757;
+}
+.fSocial:hover{
+  color: #1A1A1A;
+  background-color: #8d7948;
 }

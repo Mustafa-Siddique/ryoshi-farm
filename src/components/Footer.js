@@ -1,5 +1,6 @@
 import React from 'react'
 import logo from '../images/ryoshilogo.png'
+import {FaFacebookF, FaRedditAlien, FaDiscord, FaInstagram, FaTwitter, FaTelegramPlane} from 'react-icons/fa'
 
 export default function Footer() {
   return (
@@ -11,12 +12,12 @@ export default function Footer() {
         <button className="btn btn-outline-dark">PancakeSwap</button>
       </div>
       <div className="footerSocial my-3">
-        <a href="#" className="fSocial"></a>
-        <a href="#" className="fSocial"></a>
-        <a href="#" className="fSocial"></a>
-        <a href="#" className="fSocial"></a>
-        <a href="#" className="fSocial"></a>
-        <a href="#" className="fSocial"></a>
+        <a href="#" className="fSocial"><FaFacebookF/></a>
+        <a href="#" className="fSocial"><FaInstagram/></a>
+        <a href="#" className="fSocial"><FaRedditAlien/></a>
+        <a href="#" className="fSocial"><FaDiscord/></a>
+        <a href="#" className="fSocial"><FaTwitter/></a>
+        <a href="#" className="fSocial"><FaTelegramPlane/></a>
       </div>
       <div className="py-3">
       <p className='mb-0'><a href="#" className='text-secondary'>Frequently Asked Questions</a></p>

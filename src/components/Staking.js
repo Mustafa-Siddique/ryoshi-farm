@@ -3,7 +3,7 @@ import logo from "../images/ryoshilogo.png";
 import eth from "../images/eth.png";
 import nft from "../images/nombre.png";
 import { FaLongArrowAltRight } from "react-icons/fa";
-import { ImNewTab } from "react-icons/im";
+import { ImCopy } from "react-icons/im";
 
 export default function Staking() {
   return (
@@ -58,16 +58,20 @@ export default function Staking() {
               </div>
             </div>
             <p>
-              Liquidity:{" "}
-              <a href="#">
-                $450,184 <ImNewTab />
-              </a>
+              Token Address:{" "}
+              <a href="https://testnet.bscscan.com/address/0xe8EF5905308cB836f71A98B0E62EF59C961DbA55" target="_blank" rel="noreferrer">
+              0xe8EF...DbA55
+              </a> &nbsp;<ImCopy onClick={() => navigator.clipboard.writeText('0xe8EF5905308cB836f71A98B0E62EF59C961DbA55')}/>
+              {/* <a href="https://etherscan.io/token/0x9ac59862934ebc36072d4d8ada37c62373a13856" target="_blank">
+              0x9ac5...13856
+              </a> &nbsp; <ImCopy onClick={() => navigator.clipboard.writeText('0x9ac59862934ebc36072d4d8ada37c62373a13856')}/> */}
             </p>
-            <h6 className="mt-4">Contract</h6>
+            <h6 className="mt-4">Your Balance: <span>0.000</span></h6>
+            <h6 className="mt-4">Staked Amount: <span>0.000</span></h6>
             <hr />
             <div className="apr d-flex justify-content-between">
               <span>
-                APR <ImNewTab />
+                APR
               </span>
               <span>16.457%</span>
             </div>
@@ -151,16 +155,17 @@ export default function Staking() {
               </div>
             </div>
             <p>
-              Liquidity:{" "}
-              <a href="#">
-                $1,250,184 <ImNewTab />
-              </a>
+              LP Pair:{" "}
+              <a href="https://www.dextools.io/app/ether/pair-explorer/0x5e4d0baf57a68956180580b94c1271c37558d300" target="_blank"  rel="noreferrer">
+                0x5e4d...d300
+              </a> &nbsp;<ImCopy  onClick={() => navigator.clipboard.writeText('0x5e4d0baf57a68956180580b94c1271c37558d300')}/>
             </p>
-            <h6 className="mt-4">Contract</h6>
+            <h6 className="mt-4">Your Balance: <span>0.000</span></h6>
+            <h6 className="mt-4">Staked Amount: <span>0.000</span></h6>
             <hr />
             <div className="apr d-flex justify-content-between">
               <span>
-                APR <ImNewTab />
+                APR
               </span>
               <span>16.457%</span>
             </div>
@@ -172,9 +177,9 @@ export default function Staking() {
               <span>Harvest Lockup</span>
               <span>Complete</span>
             </div>
-            {/* <button className="btnFill py-3 mt-4">Approve Contract</button> */}
-            <p>Staked</p>
-            <div
+            <button disabled className="btnFill py-3 mt-4">Approve Contract</button>
+            {/* <p>Staked</p> */}
+            {/* <div
               className="py-3 rounded-1 px-3"
               style={{ backgroundColor: "#353535" }}
             >
@@ -200,7 +205,7 @@ export default function Staking() {
               >
                 154877954... RYOSHI
               </span>
-            </div>
+            </div> */}
             <div className="d-flex justify-content-between mt-3">
               <h5 className="text-light fs-3 my-auto">1159542.1548...</h5>
               <button className="btnFill py-3" style={{ width: "fit-content" }}>
@@ -230,7 +235,7 @@ export default function Staking() {
               className="mt-5 mb-4 d-flex justify-content-around"
             >
               <div>
-                <span>NFt + RYOSHI</span>
+                <span>NFT + RYOSHI</span>
                 <div
                   className="p-2 rounded"
                   style={{
@@ -244,10 +249,9 @@ export default function Staking() {
                     alt=""
                     style={{
                       maxHeight: "50px",
-                      marginRight: "5px",
                     }}
                   />
-                  <img src={logo} alt="" style={{ maxHeight: "50px" }} />
+                  {/* <img src={logo} alt="" style={{ maxHeight: "50px" }} /> */}
                 </div>
               </div>
               <FaLongArrowAltRight className="my-auto fs-4 text-light" />
@@ -266,16 +270,17 @@ export default function Staking() {
               </div>
             </div>
             <p>
-              Liquidity:{" "}
-              <a href="#">
-                $1,250,184 <ImNewTab />
-              </a>
+              NFT Staking:{" "}
+              <a href="https://testnet.bscscan.com/address/0x23cC47885A0CeA881bDe3d9C386f735eCc6727a5" target="_blank"  rel="noreferrer">
+              0x23cC...27a5
+              </a> &nbsp;<ImCopy  onClick={() => navigator.clipboard.writeText('0x23cC47885A0CeA881bDe3d9C386f735eCc6727a5')}/>
             </p>
-            <h6 className="mt-4">Contract</h6>
+            <h6 className="mt-4">Your Balance: <span>0.000</span></h6>
+            <h6 className="mt-4">Staked Amount: <span>0.000</span></h6>
             <hr />
             <div className="apr d-flex justify-content-between">
               <span>
-                APR <ImNewTab />
+                APR
               </span>
               <span>16.457%</span>
             </div>
@@ -287,9 +292,9 @@ export default function Staking() {
               <span>Harvest Lockup</span>
               <span>Complete</span>
             </div>
-            {/* <button className="btnFill py-3 mt-4">Approve Contract</button> */}
-            <p>Staked</p>
-            <div
+            <button className="btnFill py-3 mt-4">Approve Contract</button>
+            {/* <p>Staked</p> */}
+            {/* <div
               className="py-3 rounded-1 px-3"
               style={{ backgroundColor: "#353535" }}
             >
@@ -315,7 +320,7 @@ export default function Staking() {
               >
                 154877954... RYOSHI
               </span>
-            </div>
+            </div> */}
             <div className="d-flex justify-content-between mt-3">
               <h5 className="text-light fs-3 my-auto">1154789.1548...</h5>
               <button className="btnFill py-3" style={{ width: "fit-content" }}>
