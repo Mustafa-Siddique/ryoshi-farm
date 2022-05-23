@@ -85,7 +85,7 @@ export default function Staking() {
             </div>
             <button className="btnFill py-3 mt-4">Approve Contract</button>
             <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-3 my-auto">0.0</h5>
+              <h5 className="text-light fs-5 my-auto">0.0</h5>
               <button
                 disabled
                 className="btnFill py-3"
@@ -207,7 +207,7 @@ export default function Staking() {
               </span>
             </div> */}
             <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-3 my-auto">1159542.1548...</h5>
+              <h5 className="text-light fs-5 my-auto">1159542.1548...</h5>
               <button className="btnFill py-3" style={{ width: "fit-content" }}>
                 Harvest
               </button>
@@ -322,7 +322,7 @@ export default function Staking() {
               </span>
             </div> */}
             <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-3 my-auto">1154789.1548...</h5>
+              <h5 className="text-light fs-5 my-auto">1154789.1548...</h5>
               <button className="btnFill py-3" style={{ width: "fit-content" }}>
                 Harvest
               </button>
