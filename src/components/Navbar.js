@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import {
   FaRedditAlien,
   FaDiscord,
@@ -6,8 +6,38 @@ import {
   FaTelegramPlane,
 } from "react-icons/fa";
 import logo from '../images/ryoshilogo.png'
+import { getUserAddress, login } from './../Web3/Web3_Funtions'
+
 
 export default function Navbar() {
+
+  const [address, setAddress] = useState()
+
+  const login = async()=>{
+    const data = await window.ethereum.enable();
+    if(data){
+      
+      const address = await getUserAddress()
+      window.address = address
+      setAddress(address)
+      console.log(' user address ', address)
+    }
+    
+  }
+  
+  window.ethereum.on('accountsChanged', (accounts) => {
+    setAddress(accounts[0])
+    window.address = accounts[0]
+  });
+
+  const slicing =(add)=>{
+    const first = add.slice(0,4);
+    const second = add.slice(38);
+    return first + '...' + second
+  }
+
+  
+
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
@@ -115,7 +145,7 @@ export default function Navbar() {
               </a>
             </li>
             <li className="nav-item">
-              <button className="btn btn-outline-warning">Connect</button>
+              <button className="btn btn-outline-warning" onClick={()=> login()}>{address ? slicing(address) : 'Connect'}</button>
             </li>
           </ul>
           {/* <form className="d-flex" role="search">
