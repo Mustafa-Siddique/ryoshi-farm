@@ -141,7 +141,10 @@ export default function Staking() {
               <span>Harvest Lockup</span>
               <span>12 Hour(s)</span>
             </div>
-            <input className="inputHarvest p-2" value={stakeAmount} onChange={(e)=>setStakeAmount(e.target.value)} placeholder='Stake Amount'/>
+            <div className="d-flex inputHarvest">
+            <input className="p-2 bg-transparent w-100 border-0 text-light" value={stakeAmount} onChange={(e)=>setStakeAmount(e.target.value)} placeholder='Stake Amount'/>
+            <button className="btn btn-outline-dark text-light">MAX</button>
+            </div>
             <button className="btnFill py-3 mt-4" onClick={()=> Approve_Single_staking_Staking_token()}>{checkApprove ? "Stake" : "Approve Contract"}</button>
             <div className="d-flex justify-content-between mt-3">
               <h5 className="text-light fs-5 my-auto">{harvestamount}</h5>
@@ -235,6 +238,10 @@ export default function Staking() {
             <div className="apr d-flex justify-content-between">
               <span>Harvest Lockup</span>
               <span>Complete</span>
+            </div>
+            <div className="d-flex inputHarvest">
+            <input className="p-2 bg-transparent w-100 border-0 text-light" value={stakeAmount} onChange={(e)=>setStakeAmount(e.target.value)} placeholder='Stake Amount'/>
+            <button className="btn btn-outline-dark text-light">MAX</button>
             </div>
             <button disabled className="btnFill py-3 mt-4">Approve Contract</button>
             {/* <p>Staked</p> */}
