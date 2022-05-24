@@ -96,11 +96,24 @@
 .btnFill:hover{
   background-color: #D2A734;
 }
+.inputHarvest{
+  border: 1px solid #4B4B4B;
+  margin: 25px auto auto auto;
+  width: 100%;
+  border-radius: 5px;
+  color: #fff;
+  outline: none;
+  background-color: #1f1f1f;
+}
 
 /* FOOTER */
 .footer{
   background-color: #F2CA66;
   height: max-content;
+  width: 100%;
+}
+.footer img{
+  transform: translateX(-50%);
 }
 .fSocial{
   color: #1A1A1A;

@@ -10,7 +10,7 @@ function App() {
       <svg
         width="100%"
         className="position-absolute"
-        style={{zIndex:"0"}}
+        style={{zIndex:"0", marginTop:"-1px"}}
         height="100px"
         viewBox="0 0 500 80"
         preserveAspectRatio="none"

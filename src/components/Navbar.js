@@ -36,10 +36,6 @@ export default function Navbar() {
     return first + '...' + second
   }
 
-  
-
-  
-
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container-fluid">

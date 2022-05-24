@@ -72,7 +72,7 @@ export default function Staking() {
         <div className="col-lg-5 col-10 my-3 stakingA">
           <div className="ryoshi-head py-3 d-flex justify-content-between px-3 border-bottom">
             <h5>RYOSHI STAKING</h5>
-            <span
+            {/* <span
               style={{
                 backgroundColor: "#1E1E1E",
                 padding: "5px",
@@ -80,7 +80,7 @@ export default function Staking() {
               }}
             >
               5x
-            </span>
+            </span> */}
           </div>
           <div className="ryoshi-body px-3">
             <div
@@ -141,7 +141,7 @@ export default function Staking() {
               <span>Harvest Lockup</span>
               <span>12 Hour(s)</span>
             </div>
-            <input value={stakeAmount} onChange={(e)=>setStakeAmount(e.target.value)} placeholder='Stake Amount'/>
+            <input className="inputHarvest p-2" value={stakeAmount} onChange={(e)=>setStakeAmount(e.target.value)} placeholder='Stake Amount'/>
             <button className="btnFill py-3 mt-4" onClick={()=> Approve_Single_staking_Staking_token()}>{checkApprove ? "Stake" : "Approve Contract"}</button>
             <div className="d-flex justify-content-between mt-3">
               <h5 className="text-light fs-5 my-auto">{harvestamount}</h5>
@@ -160,7 +160,7 @@ export default function Staking() {
         <div className="col-lg-5 col-10 my-3 stakingA">
           <div className="ryoshi-head py-3 d-flex justify-content-between px-3 border-bottom">
             <h5>RYOSHI-ETH STAKING</h5>
-            <span
+            {/* <span
               style={{
                 backgroundColor: "#1E1E1E",
                 padding: "5px",
@@ -168,7 +168,7 @@ export default function Staking() {
               }}
             >
               10x
-            </span>
+            </span> */}
           </div>
           <div className="ryoshi-body px-3">
             <div
@@ -278,7 +278,7 @@ export default function Staking() {
         <div className="col-lg-5 col-10 my-3 stakingA">
           <div className="ryoshi-head py-3 d-flex justify-content-between px-3 border-bottom">
             <h5>RYOSHI-NFT STAKING</h5>
-            <span
+            {/* <span
               style={{
                 backgroundColor: "#1E1E1E",
                 padding: "5px",
@@ -286,7 +286,7 @@ export default function Staking() {
               }}
             >
               5x
-            </span>
+            </span> */}
           </div>
           <div className="ryoshi-body px-3">
             <div

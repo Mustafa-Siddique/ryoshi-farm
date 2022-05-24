@@ -5,8 +5,8 @@ import {FaFacebookF, FaRedditAlien, FaDiscord, FaInstagram, FaTwitter, FaTelegra
 export default function Footer() {
   return (
     <div className='footer text-center'>
-      <img className='mx-auto d-block' src={logo} alt="" style={{maxHeight:"150px", zIndex:"5"}} />
-      <p className="fs-4">BUY $RYOSHI</p>
+      <img src={logo} alt="" style={{maxHeight:"150px", zIndex:"5", position: "absolute"}} />
+      <p className="fs-4" style={{paddingTop: "150px"}}>BUY $RYOSHI</p>
       <div className="mt-3">
         <button className="btn btn-outline-dark me-2">RyoshiSwap</button>
         <button className="btn btn-outline-dark">PancakeSwap</button>
