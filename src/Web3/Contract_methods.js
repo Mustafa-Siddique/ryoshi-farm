@@ -20,8 +20,8 @@ export const NFT_Balance = async () => {
 export const NFT_Staking_Balance = async () => {
   try {
     const contract = await getContract(NFT_staking, ENV.NFT_STAKINGL)
-    // const balance = await contract.methods.balanceOf(window.address);
-    // return balance
+    const balance = await contract.methods.balanceOf(window.address);
+    return balance
   } catch (error) {
     console.log(error)
   }
@@ -90,7 +90,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
       }
   }
 
-  export const Calculate_Pending_Reward = async (amount) => {
+  export const Calculate_Pending_Reward = async () => {
     try {
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
         const data = await contract.methods
@@ -102,12 +102,91 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
       }
   }
 
-  export const Current_staking_balance = async (amount) => {
+  export const Current_staking_balance = async () => {
     try {
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
         const data = await contract.methods
           .stakeholders(window.address)
           .call();
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  export const Approv_Ryoshi_ETH_Contract = async () => {
+    try {
+      const contract = await getContract(LP_Token, ENV.LP_TOKEN)
+      const data = await contract.methods
+        .approve(
+          ENV.LP_STAKING_FARMING,
+          115792089237316195423570985008687907853269984665640564039457584007913129639935n,
+        )
+        .send({ from: window.address })
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  export const Allowance_of_LP_Token_contract = async () => {
+    try {
+      const contract = await getContract(LP_Token, ENV.LP_TOKEN)
+      const data = await contract.methods
+        .allowance(window.address, ENV.LP_STAKING_FARMING)
+        .call()
+      return Number(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  export const Staking_LP_Token = async (amount,pid) => {
+    try {
+        const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
+        const data = await contract.methods
+          .Deposit(window.address, pid,amount)
+          .send({from: window.address})
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  export const LP_Token_Balance = async () => {
+    try {
+      const contract = await getContract(LP_Token, ENV.LP_TOKEN)
+        const data = await contract.methods.balanceOf(window.address).call()
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  export const LP_Token_User_Information = async () => {
+    try {
+      const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
+        const data = await contract.methods.userInfo(0,window.address).call()
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  export const LP_Token_Harvest = async (pid) => {
+    try {
+      const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
+        const data = await contract.methods.harvest(0).send({from: window.address});
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  export const LP_Token_UnStake = async (pid,amount) => {
+    try {
+      const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
+        const data = await contract.methods.Withdraw(window.address,pid,amount).call().send({from: window.address})
         return data
       } catch (error) {
         console.log(error)

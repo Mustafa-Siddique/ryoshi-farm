@@ -1,75 +1,134 @@
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../images/ryoshilogo.png";
 import eth from "../images/eth.png";
 import nft from "../images/nombre.png";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { ImCopy } from "react-icons/im";
-import {Ryoshi_Token_balance,Allowance_of_single_staking_contract,Approv_Ryoshi_Staking_Contract,Harvest_Ryoshi_Token_Staking,Staking_Ryoshi_Token,Calculate_Pending_Reward,Current_staking_balance} from './../Web3/Contract_methods'
+import {
+  Ryoshi_Token_balance,
+  Allowance_of_single_staking_contract,
+  Approv_Ryoshi_Staking_Contract,
+  Harvest_Ryoshi_Token_Staking,
+  Staking_Ryoshi_Token,
+  Calculate_Pending_Reward,
+  Current_staking_balance,
+  Approv_Ryoshi_ETH_Contract,
+  Allowance_of_LP_Token_contract,
+  Staking_LP_Token,
+  LP_Token_Balance,
+  LP_Token_User_Information,
+  LP_Token_Harvest,
+} from "./../Web3/Contract_methods";
 import LiveStat from "./LiveStat";
 
 export default function Staking() {
+  const [balace_ryoshi, setBalace_Ryoshi] = useState(0);
+  const [checkApprove, setCheckApprove] = useState(false);
+  const [stakeAmount, setStakeAmount] = useState(0);
+  const [harvestamount, setHarvestAmount] = useState(0);
+  const [stakingBalance, setStakingBalance] = useState(0);
+  const [stakeAmountLP, setStakeAmountLP] = useState(0)
+  const [CheckApproveofTPtoken, setCheckApproveforLP] = useState(false)
+  const [LPbalance, setLPbalance] = useState(0)
+  const [LPstakingBalance, setLPstakingBalance] = useState(0)
+  const [LPharvestamount, setLPharvestamount] = useState(0)
 
-  const [balace_ryoshi, setBalace_Ryoshi] = useState(0)
-  const [checkApprove, setCheckApprove] = useState(false)
-  const [stakeAmount, setStakeAmount] = useState(0)
-  const [harvestamount, setHarvestAmount] = useState(0)
-  const [stakingBalance, setStakingBalance] = useState(0)
+  useEffect(() => {
+    const init = async () => {
+      try {
+        if (window.address) {
+          await Ryoshi_token_Balance();
+          await CheckifApproveofTPtoken();
+          await CheckIfApprove();
 
-  useEffect(()=> {
-    const init = async()=> {
-      await Ryoshi_token_Balance();
-      await CheckIfApprove();
-      const stakingbbal = await Current_staking_balance()
-      setStakingBalance(stakingbbal.stakingBalance)
+          const stakingbbal = await Current_staking_balance();
+          setStakingBalance(stakingbbal.stakingBalance/10**18);
+          const data = await Calculate_Pending_Reward();
+          setHarvestAmount(data[0]/10**18);
+          const info = await LP_Token_User_Information()
+          setLPstakingBalance(info[0]/10**18)
+          setLPharvestamount(info[1]/10**18)
 
-      const data = await Calculate_Pending_Reward();
-      setHarvestAmount(data[0])
-      console.log("stakingbbal",stakingbbal)
+          console.log("stakingbbal",info)
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    setInterval(() => {
+      try {
+        init();
+      } catch (error) {
+        console.log("error", error);
+      }
+    }, 2000);
+  }, [window.address]);
+
+  const Ryoshi_token_Balance = async () => {
+    const bal = await Ryoshi_Token_balance();
+    setBalace_Ryoshi(bal / 10 ** 18);
+    const lpbal = await LP_Token_Balance();
+    setLPbalance(lpbal/ 10 ** 18)
+  };
+
+  const Approve_Single_staking_Staking_token = async () => {
+    if (checkApprove) {
+      await Staking_Ryoshi_Token(stakeAmount);
+    } else {
+      const data = await Approv_Ryoshi_Staking_Contract();
+      setCheckApprove(data.status);
+      await Staking_Ryoshi_Token(stakeAmount);
     }
-  
-    setInterval(()=>{
-      init();
-    },2000)
-  }, [window.address])
+  };
 
-
-  const Ryoshi_token_Balance=async()=> {
-      const bal = await Ryoshi_Token_balance()
-      setBalace_Ryoshi(bal/10**18)
+  const Approve_LP_and_Stake_LP =async()=>{
+    if(CheckApproveofTPtoken){
+      await Staking_LP_Token()
+    }
+    else{
+      const data = await Approv_Ryoshi_ETH_Contract()
+      setCheckApproveforLP(data.status)
+      await Staking_LP_Token()
+    }
   }
 
-  const Approve_Single_staking_Staking_token =async()=> {
-      if(checkApprove){
-       await Staking_Ryoshi_Token(stakeAmount)
-      }
-      else{
-        const data = await Approv_Ryoshi_Staking_Contract()
-        setCheckApprove(data.status)
-        await Staking_Ryoshi_Token(stakeAmount)
-
-      }
-  }
-
-  const Harverting = async()=> {
+  const Harverting = async () => {
     await Harvest_Ryoshi_Token_Staking();
+  };
+
+  const LP_harvest =async()=> {
+    await LP_Token_Harvest()
   }
 
-  const CheckIfApprove = async()=>{
-    const data = await Allowance_of_single_staking_contract()
-    if(data > 10){
-      setCheckApprove(true)
+  const CheckIfApprove = async () => {
+    const data = await Allowance_of_single_staking_contract();
+    if (data > 10) {
+      setCheckApprove(true);
+    }
+  };
+  const CheckifApproveofTPtoken = async ()=>{
+    const data = await Allowance_of_LP_Token_contract();
+    if(data > 0){
+      setCheckApproveforLP(true)
     }
   }
-
-  const MaxStaking = async()=> {
-    setStakeAmount(balace_ryoshi)
+  const LPTokenUnstake =async()=>{
+    await LP_Token_Harvest(0,stakeAmountLP/10**18)
   }
-  
+
+  const MaxStaking = async () => {
+    setStakeAmount(balace_ryoshi);
+  };
+
+  const MaxLPStaking = async () => {
+    setStakeAmountLP(LPbalance);
+  };
+
   return (
     <div className="container-fluid staking-main">
-      <LiveStat/>
+      <LiveStat />
       <div className="row justify-content-around justify-content-lg-between">
-
         {/* RYOSHI STAKING */}
         <div className="col my-3 stakingA">
           <div className="ryoshi-head py-3 d-flex justify-content-between px-3 border-bottom">
@@ -119,20 +178,34 @@ export default function Staking() {
             </div>
             <p>
               Token Address:{" "}
-              <a href="https://testnet.bscscan.com/address/0xe8EF5905308cB836f71A98B0E62EF59C961DbA55" target="_blank" rel="noreferrer">
-              0xe8EF...DbA55
-              </a> &nbsp;<ImCopy onClick={() => navigator.clipboard.writeText('0xe8EF5905308cB836f71A98B0E62EF59C961DbA55')}/>
+              <a
+                href="https://testnet.bscscan.com/address/0xe8EF5905308cB836f71A98B0E62EF59C961DbA55"
+                target="_blank"
+                rel="noreferrer"
+              >
+                0xe8EF...DbA55
+              </a>{" "}
+              &nbsp;
+              <ImCopy
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    "0xe8EF5905308cB836f71A98B0E62EF59C961DbA55"
+                  )
+                }
+              />
               {/* <a href="https://etherscan.io/token/0x9ac59862934ebc36072d4d8ada37c62373a13856" target="_blank">
               0x9ac5...13856
               </a> &nbsp; <ImCopy onClick={() => navigator.clipboard.writeText('0x9ac59862934ebc36072d4d8ada37c62373a13856')}/> */}
             </p>
-            <h6 className="mt-4">Your Balance: <span>{balace_ryoshi}</span></h6>
-            <h6 className="mt-4">Staked Amount: <span>{stakingBalance}</span></h6>
+            <h6 className="mt-4">
+              Your Balance: <span>{balace_ryoshi.toFixed(2)}</span>
+            </h6>
+            <h6 className="mt-4">
+              Staked Amount: <span>{stakingBalance.toFixed(2)}</span>
+            </h6>
             <hr />
             <div className="apr d-flex justify-content-between">
-              <span>
-                APR
-              </span>
+              <span>APR</span>
               <span>16.457%</span>
             </div>
             <div className="apr d-flex justify-content-between">
@@ -144,14 +217,39 @@ export default function Staking() {
               <span>12 Hour(s)</span>
             </div>
             <div className="d-flex inputHarvest">
-            <input className="p-2 bg-transparent w-100 border-0 text-light" value={stakeAmount} onChange={(e)=>setStakeAmount(e.target.value)} placeholder='Stake Amount'/>
-            <button className="btn btn-outline-dark text-light">MAX</button>
-            </div>
-            <button className="btnFill py-3 mt-4" onClick={()=> Approve_Single_staking_Staking_token()}>{checkApprove ? "Stake" : "Approve Contract"}</button>
-            <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-5 my-auto">{harvestamount}</h5>
+              <input
+                className="p-2 bg-transparent w-100 border-0 text-light"
+                value={stakeAmount}
+                onChange={(e) => setStakeAmount(e.target.value)}
+                placeholder="Stake Amount"
+              />
               <button
-                onClick={()=>Harverting()}
+                className="btn btn-outline-dark text-light"
+                onClick={() => MaxStaking()}
+              >
+                MAX
+              </button>
+            </div>
+            <button
+              className="btnFill py-3 mt-4"
+              onClick={() => Approve_Single_staking_Staking_token()}
+            >
+              {checkApprove ? "Stake" : "Approve Contract"}
+            </button>
+            {stakingBalance > 0 ? (
+              <button
+                className="btnFill py-3 mt-4"
+               
+              >
+                Unstake
+              </button>
+            ) : (
+              ""
+            )}
+            <div className="d-flex justify-content-between mt-3">
+              <h5 className="text-light fs-5 my-auto">{harvestamount.toFixed(2)}</h5>
+              <button
+                onClick={() => Harverting()}
                 className="btnFill py-3"
                 style={{ width: "fit-content" }}
               >
@@ -220,17 +318,31 @@ export default function Staking() {
             </div>
             <p>
               LP Pair:{" "}
-              <a href="https://www.dextools.io/app/ether/pair-explorer/0x5e4d0baf57a68956180580b94c1271c37558d300" target="_blank"  rel="noreferrer">
+              <a
+                href="https://www.dextools.io/app/ether/pair-explorer/0x5e4d0baf57a68956180580b94c1271c37558d300"
+                target="_blank"
+                rel="noreferrer"
+              >
                 0x5e4d...d300
-              </a> &nbsp;<ImCopy  onClick={() => navigator.clipboard.writeText('0x5e4d0baf57a68956180580b94c1271c37558d300')}/>
+              </a>{" "}
+              &nbsp;
+              <ImCopy
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    "0x5e4d0baf57a68956180580b94c1271c37558d300"
+                  )
+                }
+              />
             </p>
-            <h6 className="mt-4">Your Balance: <span>0.000</span></h6>
-            <h6 className="mt-4">Staked Amount: <span>0.000</span></h6>
+            <h6 className="mt-4">
+              Your Balance: <span>{LPbalance.toFixed(2)}</span>
+            </h6>
+            <h6 className="mt-4">
+              Staked Amount: <span>{LPstakingBalance.toFixed(2)}</span>
+            </h6>
             <hr />
             <div className="apr d-flex justify-content-between">
-              <span>
-                APR
-              </span>
+              <span>APR</span>
               <span>16.457%</span>
             </div>
             <div className="apr d-flex justify-content-between">
@@ -242,10 +354,16 @@ export default function Staking() {
               <span>Complete</span>
             </div>
             <div className="d-flex inputHarvest">
-            <input className="p-2 bg-transparent w-100 border-0 text-light" value={stakeAmount} onChange={(e)=>setStakeAmount(e.target.value)} placeholder='Stake Amount'/>
-            <button className="btn btn-outline-dark text-light">MAX</button>
+              <input
+                className="p-2 bg-transparent w-100 border-0 text-light"
+                value={stakeAmountLP}
+                onChange={(e) => setStakeAmountLP(e.target.value)}
+                placeholder="Stake Amount"
+              />
+              <button className="btn btn-outline-dark text-light" onClick={()=>MaxLPStaking()}>MAX</button>
             </div>
-            <button disabled className="btnFill py-3 mt-4">Approve Contract</button>
+            <button className="btnFill py-3 mt-4" onClick={()=>Approve_LP_and_Stake_LP()} >{CheckApproveofTPtoken ? "Stake" : "Approve Contract"}</button>
+           {LPstakingBalance > 0 ? <button className="btnFill py-3 mt-4" onClick={()=>LPTokenUnstake()} >Unstake</button>:''}
             {/* <p>Staked</p> */}
             {/* <div
               className="py-3 rounded-1 px-3"
@@ -275,8 +393,8 @@ export default function Staking() {
               </span>
             </div> */}
             <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-5 my-auto">1159542.1548...</h5>
-              <button className="btnFill py-3" style={{ width: "fit-content" }}>
+              <h5 className="text-light fs-5 my-auto">{LPharvestamount.toFixed(2)}</h5>
+              <button className="btnFill py-3" style={{ width: "fit-content" }} onClick={()=>LP_harvest()}>
                 Harvest
               </button>
             </div>
@@ -339,17 +457,31 @@ export default function Staking() {
             </div>
             <p>
               NFT Staking:{" "}
-              <a href="https://testnet.bscscan.com/address/0x23cC47885A0CeA881bDe3d9C386f735eCc6727a5" target="_blank"  rel="noreferrer">
-              0x23cC...27a5
-              </a> &nbsp;<ImCopy  onClick={() => navigator.clipboard.writeText('0x23cC47885A0CeA881bDe3d9C386f735eCc6727a5')}/>
+              <a
+                href="https://testnet.bscscan.com/address/0x23cC47885A0CeA881bDe3d9C386f735eCc6727a5"
+                target="_blank"
+                rel="noreferrer"
+              >
+                0x23cC...27a5
+              </a>{" "}
+              &nbsp;
+              <ImCopy
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    "0x23cC47885A0CeA881bDe3d9C386f735eCc6727a5"
+                  )
+                }
+              />
             </p>
-            <h6 className="mt-4">Your Balance: <span>0.000</span></h6>
-            <h6 className="mt-4">Staked Amount: <span>0.000</span></h6>
+            <h6 className="mt-4">
+              Your Balance: <span>0.000</span>
+            </h6>
+            <h6 className="mt-4">
+              Staked Amount: <span>0.000</span>
+            </h6>
             <hr />
             <div className="apr d-flex justify-content-between">
-              <span>
-                APR
-              </span>
+              <span>APR</span>
               <span>16.457%</span>
             </div>
             <div className="apr d-flex justify-content-between">
