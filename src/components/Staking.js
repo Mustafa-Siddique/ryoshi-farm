@@ -5,6 +5,7 @@ import nft from "../images/nombre.png";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { ImCopy } from "react-icons/im";
 import {Ryoshi_Token_balance,Allowance_of_single_staking_contract,Approv_Ryoshi_Staking_Contract,Harvest_Ryoshi_Token_Staking,Staking_Ryoshi_Token,Calculate_Pending_Reward,Current_staking_balance} from './../Web3/Contract_methods'
+import LiveStat from "./LiveStat";
 
 export default function Staking() {
 
@@ -66,10 +67,11 @@ export default function Staking() {
   
   return (
     <div className="container-fluid staking-main">
+      <LiveStat/>
       <div className="row justify-content-around justify-content-lg-between">
 
         {/* RYOSHI STAKING */}
-        <div className="col-lg-5 col-10 my-3 stakingA">
+        <div className="col my-3 stakingA">
           <div className="ryoshi-head py-3 d-flex justify-content-between px-3 border-bottom">
             <h5>RYOSHI STAKING</h5>
             {/* <span
@@ -160,7 +162,7 @@ export default function Staking() {
         </div>
 
         {/* RYOSHI-ETH STAKING */}
-        <div className="col-lg-5 col-10 my-3 stakingA">
+        <div className="col my-3 stakingA">
           <div className="ryoshi-head py-3 d-flex justify-content-between px-3 border-bottom">
             <h5>RYOSHI-ETH STAKING</h5>
             {/* <span
@@ -282,7 +284,7 @@ export default function Staking() {
         </div>
 
         {/* RYOSHI-NFT STAKING */}
-        <div className="col-lg-5 col-10 my-3 stakingA">
+        <div className="col my-3 stakingA">
           <div className="ryoshi-head py-3 d-flex justify-content-between px-3 border-bottom">
             <h5>RYOSHI-NFT STAKING</h5>
             {/* <span

@@ -47,11 +47,21 @@
   text-decoration: underline;
 }
 
+/* LIVE STATUS */
+.liveStat{
+  max-width: 1440px;
+  margin: auto;
+}
+.liveStat .col-md-3{
+  min-width: fit-content;
+}
+
 /* STAKING MAIN */
 .staking-main{
   position: relative;
   color: #A4A4A4;
   font-family: DM Sans;
+  margin-top: 50px;
 }
 /* .staking-main::after{
   content: '';
@@ -67,16 +77,19 @@
 } */
 .staking-main .row{
   max-width: 1440px;
-  margin: 100px auto 50px auto;
+  margin: 50px auto 50px auto;
 }
 .staking-main a{
   color: #A4A4A4;
   text-decoration: none;
 }
-.staking-main .row .col-lg-5{
+.staking-main .row .col{
   background-color: #2D2D2D;
   border-radius: 25px;
   padding: 15px 0;
+  min-width: 325px;
+  max-width: 420px;
+  margin: auto 15px;
 }
 .btnFill{
   background-color: #F2CA66;
