@@ -20,6 +20,19 @@ import {
   LP_Token_Harvest,
 } from "./../Web3/Contract_methods";
 import LiveStat from "./LiveStat";
+import toast, { Toaster } from "react-hot-toast";
+
+const tost =()=> toast.success("Success.", {
+  style: {
+    border: "1px solid #713200",
+    padding: "10px",
+    color: "#1C1C1C",
+  },
+  iconTheme: {
+    primary: "#1C1C1C",
+    secondary: "#FFFAEE",
+  },
+});
 
 export default function Staking() {
   const [balace_ryoshi, setBalace_Ryoshi] = useState(0);
@@ -27,11 +40,11 @@ export default function Staking() {
   const [stakeAmount, setStakeAmount] = useState(0);
   const [harvestamount, setHarvestAmount] = useState(0);
   const [stakingBalance, setStakingBalance] = useState(0);
-  const [stakeAmountLP, setStakeAmountLP] = useState(0)
-  const [CheckApproveofTPtoken, setCheckApproveforLP] = useState(false)
-  const [LPbalance, setLPbalance] = useState(0)
-  const [LPstakingBalance, setLPstakingBalance] = useState(0)
-  const [LPharvestamount, setLPharvestamount] = useState(0)
+  const [stakeAmountLP, setStakeAmountLP] = useState(0);
+  const [CheckApproveofTPtoken, setCheckApproveforLP] = useState(false);
+  const [LPbalance, setLPbalance] = useState(0);
+  const [LPstakingBalance, setLPstakingBalance] = useState(0);
+  const [LPharvestamount, setLPharvestamount] = useState(0);
 
   useEffect(() => {
     const init = async () => {
@@ -42,14 +55,14 @@ export default function Staking() {
           await CheckIfApprove();
 
           const stakingbbal = await Current_staking_balance();
-          setStakingBalance(stakingbbal.stakingBalance/10**18);
+          setStakingBalance(stakingbbal.stakingBalance / 10 ** 18);
           const data = await Calculate_Pending_Reward();
-          setHarvestAmount(data[0]/10**18);
-          const info = await LP_Token_User_Information()
-          setLPstakingBalance(info[0]/10**18)
-          setLPharvestamount(info[1]/10**18)
+          setHarvestAmount(data[0] / 10 ** 18);
+          const info = await LP_Token_User_Information();
+          setLPstakingBalance(info[0] / 10 ** 18);
+          setLPharvestamount(info[1] / 10 ** 18);
 
-          console.log("stakingbbal",info)
+          console.log("stakingbbal", info);
         }
       } catch (error) {
         console.log("error", error);
@@ -69,37 +82,54 @@ export default function Staking() {
     const bal = await Ryoshi_Token_balance();
     setBalace_Ryoshi(bal / 10 ** 18);
     const lpbal = await LP_Token_Balance();
-    setLPbalance(lpbal/ 10 ** 18)
+    setLPbalance(lpbal / 10 ** 18);
   };
 
   const Approve_Single_staking_Staking_token = async () => {
     if (checkApprove) {
-      await Staking_Ryoshi_Token(stakeAmount);
+      const data  = await Staking_Ryoshi_Token(stakeAmount);
+      if(data.status){
+        tost();
+      }
     } else {
-      const data = await Approv_Ryoshi_Staking_Contract();
+      await Approv_Ryoshi_Staking_Contract();
       setCheckApprove(data.status);
-      await Staking_Ryoshi_Token(stakeAmount);
+      const data  = await Staking_Ryoshi_Token(stakeAmount);
+      if(data.status){
+        tost();
+      }
     }
   };
 
-  const Approve_LP_and_Stake_LP =async()=>{
-    if(CheckApproveofTPtoken){
-      await Staking_LP_Token()
+  const Approve_LP_and_Stake_LP = async () => {
+    if (CheckApproveofTPtoken) {
+      const data  = await Staking_LP_Token();
+      if(data.status){
+        tost();
+      }
+    } else {
+      await Approv_Ryoshi_ETH_Contract();
+      setCheckApproveforLP(data.status);
+      const data  = await Staking_LP_Token();
+      if(data.status){
+        tost();
+      }
     }
-    else{
-      const data = await Approv_Ryoshi_ETH_Contract()
-      setCheckApproveforLP(data.status)
-      await Staking_LP_Token()
-    }
-  }
+  };
 
   const Harverting = async () => {
-    await Harvest_Ryoshi_Token_Staking();
+    const data = await Harvest_Ryoshi_Token_Staking();
+    if(data.status){
+      tost();
+    }
   };
 
-  const LP_harvest =async()=> {
-    await LP_Token_Harvest()
-  }
+  const LP_harvest = async () => {
+    const data = await LP_Token_Harvest();
+    if(data.status){
+      tost();
+    }
+  };
 
   const CheckIfApprove = async () => {
     const data = await Allowance_of_single_staking_contract();
@@ -107,15 +137,18 @@ export default function Staking() {
       setCheckApprove(true);
     }
   };
-  const CheckifApproveofTPtoken = async ()=>{
+  const CheckifApproveofTPtoken = async () => {
     const data = await Allowance_of_LP_Token_contract();
-    if(data > 0){
-      setCheckApproveforLP(true)
+    if (data > 0) {
+      setCheckApproveforLP(true);
     }
-  }
-  const LPTokenUnstake =async()=>{
-    await LP_Token_Harvest(0,stakeAmountLP/10**18)
-  }
+  };
+  const LPTokenUnstake = async () => {
+    const data = await LP_Token_Harvest(0, stakeAmountLP / 10 ** 18);
+    if(data.status){
+      tost();
+    }
+  };
 
   const MaxStaking = async () => {
     setStakeAmount(balace_ryoshi);
@@ -123,10 +156,12 @@ export default function Staking() {
 
   const MaxLPStaking = async () => {
     setStakeAmountLP(LPbalance);
+   
   };
 
   return (
     <div className="container-fluid staking-main">
+      <Toaster position="top-left" reverseOrder={false} />
       <LiveStat />
       <div className="row justify-content-around justify-content-lg-between">
         {/* RYOSHI STAKING */}
@@ -237,17 +272,14 @@ export default function Staking() {
               {checkApprove ? "Stake" : "Approve Contract"}
             </button>
             {stakingBalance > 0 ? (
-              <button
-                className="btnFill py-3 mt-4"
-               
-              >
-                Unstake
-              </button>
+              <button className="btnFill py-3 mt-4">Unstake</button>
             ) : (
               ""
             )}
             <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-5 my-auto">{harvestamount.toFixed(2)}</h5>
+              <h5 className="text-light fs-5 my-auto">
+                {harvestamount.toFixed(2)}
+              </h5>
               <button
                 onClick={() => Harverting()}
                 className="btnFill py-3"
@@ -360,10 +392,29 @@ export default function Staking() {
                 onChange={(e) => setStakeAmountLP(e.target.value)}
                 placeholder="Stake Amount"
               />
-              <button className="btn btn-outline-dark text-light" onClick={()=>MaxLPStaking()}>MAX</button>
+              <button
+                className="btn btn-outline-dark text-light"
+                onClick={() => MaxLPStaking()}
+              >
+                MAX
+              </button>
             </div>
-            <button className="btnFill py-3 mt-4" onClick={()=>Approve_LP_and_Stake_LP()} >{CheckApproveofTPtoken ? "Stake" : "Approve Contract"}</button>
-           {LPstakingBalance > 0 ? <button className="btnFill py-3 mt-4" onClick={()=>LPTokenUnstake()} >Unstake</button>:''}
+            <button
+              className="btnFill py-3 mt-4"
+              onClick={() => Approve_LP_and_Stake_LP()}
+            >
+              {CheckApproveofTPtoken ? "Stake" : "Approve Contract"}
+            </button>
+            {LPstakingBalance > 0 ? (
+              <button
+                className="btnFill py-3 mt-4"
+                onClick={() => LPTokenUnstake()}
+              >
+                Unstake
+              </button>
+            ) : (
+              ""
+            )}
             {/* <p>Staked</p> */}
             {/* <div
               className="py-3 rounded-1 px-3"
@@ -393,8 +444,14 @@ export default function Staking() {
               </span>
             </div> */}
             <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-5 my-auto">{LPharvestamount.toFixed(2)}</h5>
-              <button className="btnFill py-3" style={{ width: "fit-content" }} onClick={()=>LP_harvest()}>
+              <h5 className="text-light fs-5 my-auto">
+                {LPharvestamount.toFixed(2)}
+              </h5>
+              <button
+                className="btnFill py-3"
+                style={{ width: "fit-content" }}
+                onClick={() => LP_harvest()}
+              >
                 Harvest
               </button>
             </div>
