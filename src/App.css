@@ -48,23 +48,18 @@
 }
 
 /* LIVE STATUS */
-.liveStat{
+/* .liveStat{
   max-width: 1440px;
-  margin: auto;
+  margin-top: 50px !important;
 }
 .liveStat .col{
-  width: fit-content;
-  min-width: 325px;
+  border-radius: 20px;
   margin: auto 15px;
   width: 100%;
-}
-
-.liveStat .col-md-4 .card{
-  min-width: 325px;
-  text-align: center;
+  border: 1px solid grey;
   max-width: 420px;
-}
-
+  min-width: 325px;
+} */
 
 /* STAKING MAIN */
 .staking-main{
@@ -73,6 +68,7 @@
   font-family: DM Sans;
   margin-top: 50px;
 }
+
 /* .staking-main::after{
   content: '';
   position: absolute;

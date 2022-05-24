@@ -18,22 +18,23 @@ import {
   LP_Token_Balance,
   LP_Token_User_Information,
   LP_Token_Harvest,
-  Unstaking_Ryoshi_Token
+  Unstaking_Ryoshi_Token,
 } from "./../Web3/Contract_methods";
 import LiveStat from "./LiveStat";
 import toast, { Toaster } from "react-hot-toast";
 
-const tost =()=> toast.success("Success.", {
-  style: {
-    border: "1px solid #713200",
-    padding: "10px",
-    color: "#1C1C1C",
-  },
-  iconTheme: {
-    primary: "#1C1C1C",
-    secondary: "#FFFAEE",
-  },
-});
+const tost = () =>
+  toast.success("Success.", {
+    style: {
+      border: "1px solid #713200",
+      padding: "10px",
+      color: "#1C1C1C",
+    },
+    iconTheme: {
+      primary: "#1C1C1C",
+      secondary: "#FFFAEE",
+    },
+  });
 
 export default function Staking() {
   const [balace_ryoshi, setBalace_Ryoshi] = useState(0);
@@ -88,15 +89,15 @@ export default function Staking() {
 
   const Approve_Single_staking_Staking_token = async () => {
     if (checkApprove) {
-      const data  = await Staking_Ryoshi_Token(stakeAmount);
-      if(data.status){
+      const data = await Staking_Ryoshi_Token(stakeAmount);
+      if (data.status) {
         tost();
       }
     } else {
       await Approv_Ryoshi_Staking_Contract();
       setCheckApprove(data.status);
-      const data  = await Staking_Ryoshi_Token(stakeAmount);
-      if(data.status){
+      const data = await Staking_Ryoshi_Token(stakeAmount);
+      if (data.status) {
         tost();
       }
     }
@@ -104,34 +105,34 @@ export default function Staking() {
 
   const Approve_LP_and_Stake_LP = async () => {
     if (CheckApproveofTPtoken) {
-      const data  = await Staking_LP_Token();
-      if(data.status){
+      const data = await Staking_LP_Token();
+      if (data.status) {
         tost();
       }
     } else {
       await Approv_Ryoshi_ETH_Contract();
       setCheckApproveforLP(data.status);
-      const data  = await Staking_LP_Token();
-      if(data.status){
+      const data = await Staking_LP_Token();
+      if (data.status) {
         tost();
       }
     }
   };
 
-  const Unstaking_Ryoshi =async()=>{
-    await Unstaking_Ryoshi_Token(stakeAmount*10**18)
-  }
+  const Unstaking_Ryoshi = async () => {
+    await Unstaking_Ryoshi_Token(stakeAmount * 10 ** 18);
+  };
 
   const Harverting = async () => {
     const data = await Harvest_Ryoshi_Token_Staking();
-    if(data.status){
+    if (data.status) {
       tost();
     }
   };
 
   const LP_harvest = async () => {
     const data = await LP_Token_Harvest();
-    if(data.status){
+    if (data.status) {
       tost();
     }
   };
@@ -150,7 +151,7 @@ export default function Staking() {
   };
   const LPTokenUnstake = async () => {
     const data = await LP_Token_Harvest(0, stakeAmountLP / 10 ** 18);
-    if(data.status){
+    if (data.status) {
       tost();
     }
   };
@@ -161,13 +162,37 @@ export default function Staking() {
 
   const MaxLPStaking = async () => {
     setStakeAmountLP(LPbalance);
-   
   };
 
   return (
     <div className="container-fluid staking-main">
+      <div className="text-light mx-auto textContent" style={{maxWidth:"1440px"}}>
+      <h1>RYOSHI FARMS</h1>
+      <p>Stake Ryoshi Token &amp; Liquidity Pool (LP) to earn</p>
+      </div>
       <Toaster position="top-left" reverseOrder={false} />
       {/* <LiveStat /> */}
+      <div className="row justify-content-around justify-content-lg-between">
+        <div className="col my-3 stakingA">
+          <div className="ryoshi-head py-3 px-3">
+            <h5>Total Value Locked</h5>
+            <span className="fs-5">0000</span>
+          </div>
+        </div>
+        <div className="col my-3 stakingA">
+          <div className="ryoshi-head py-3 px-3">
+            <h5>Total Rewards</h5>
+            <span className="fs-5">0000</span>
+          </div>
+        </div>
+        <div className="col my-3 stakingA">
+          <div className="ryoshi-head py-3 px-3">
+            <h5>Ryoshi Token Price</h5>
+            <span className="fs-5">0000</span>
+          </div>
+        </div>
+      </div>
+
       <div className="row justify-content-around justify-content-lg-between">
         {/* RYOSHI STAKING */}
         <div className="col my-3 stakingA">
@@ -277,7 +302,12 @@ export default function Staking() {
               {checkApprove ? "Stake" : "Approve Contract"}
             </button>
             {stakingBalance > 0 ? (
-              <button className="btnFill py-3 mt-4" onClick={()=> Unstaking_Ryoshi()}>Unstake</button>
+              <button
+                className="btnFill py-3 mt-4"
+                onClick={() => Unstaking_Ryoshi()}
+              >
+                Unstake
+              </button>
             ) : (
               ""
             )}

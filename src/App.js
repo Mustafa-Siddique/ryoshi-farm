@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <Navbar/>
-      <LiveStat/>
+      {/* <LiveStat/> */}
       <Staking/>
       <svg
         width="100%"
