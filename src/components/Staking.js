@@ -18,6 +18,7 @@ import {
   LP_Token_Balance,
   LP_Token_User_Information,
   LP_Token_Harvest,
+  Unstaking_Ryoshi_Token
 } from "./../Web3/Contract_methods";
 import LiveStat from "./LiveStat";
 import toast, { Toaster } from "react-hot-toast";
@@ -117,6 +118,10 @@ export default function Staking() {
     }
   };
 
+  const Unstaking_Ryoshi =async()=>{
+    await Unstaking_Ryoshi_Token(stakeAmount*10**18)
+  }
+
   const Harverting = async () => {
     const data = await Harvest_Ryoshi_Token_Staking();
     if(data.status){
@@ -162,7 +167,7 @@ export default function Staking() {
   return (
     <div className="container-fluid staking-main">
       <Toaster position="top-left" reverseOrder={false} />
-      <LiveStat />
+      {/* <LiveStat /> */}
       <div className="row justify-content-around justify-content-lg-between">
         {/* RYOSHI STAKING */}
         <div className="col my-3 stakingA">
@@ -272,7 +277,7 @@ export default function Staking() {
               {checkApprove ? "Stake" : "Approve Contract"}
             </button>
             {stakingBalance > 0 ? (
-              <button className="btnFill py-3 mt-4">Unstake</button>
+              <button className="btnFill py-3 mt-4" onClick={()=> Unstaking_Ryoshi()}>Unstake</button>
             ) : (
               ""
             )}

@@ -89,6 +89,17 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
         console.log(error)
       }
   }
+  export const Unstaking_Ryoshi_Token = async (amount) => {
+    try {
+        const contract = await getContract(Staking, ENV.SINGLE_STAKING)
+        const data = await contract.methods
+          .withdrawFunds(amount)
+          .send({from: window.address})
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+  }
 
   export const Calculate_Pending_Reward = async () => {
     try {
