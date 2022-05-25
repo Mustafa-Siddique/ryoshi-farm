@@ -19,6 +19,14 @@ import {
   LP_Token_User_Information,
   LP_Token_Harvest,
   Unstaking_Ryoshi_Token,
+  Approv_NFT_Staking_Contract,
+  get_user_owned_NFT,
+  NFT_stake,
+  NFT_Staking_Balance_and_userinfo,
+  NFT_Balance,
+  NFT_Staking_Reward_to_harvest,
+  NFT_Staking_harvest,
+  NFT_Unstaking
 } from "./../Web3/Contract_methods";
 import LiveStat from "./LiveStat";
 import toast, { Toaster } from "react-hot-toast";
@@ -47,6 +55,9 @@ export default function Staking() {
   const [LPbalance, setLPbalance] = useState(0);
   const [LPstakingBalance, setLPstakingBalance] = useState(0);
   const [LPharvestamount, setLPharvestamount] = useState(0);
+  const [NFTbalance, setNFTbalance] = useState(0);
+  const [NFTStakeBalance, setNFTStakeBalance] = useState(0);
+  const [NFTRewardtoHarvest, setNFTRewardtoHarvest] = useState(0)
 
   useEffect(() => {
     const init = async () => {
@@ -55,6 +66,7 @@ export default function Staking() {
           await Ryoshi_token_Balance();
           await CheckifApproveofTPtoken();
           await CheckIfApprove();
+        
 
           const stakingbbal = await Current_staking_balance();
           setStakingBalance(stakingbbal.stakingBalance / 10 ** 18);
@@ -63,8 +75,13 @@ export default function Staking() {
           const info = await LP_Token_User_Information();
           setLPstakingBalance(info[0] / 10 ** 18);
           setLPharvestamount(info[1] / 10 ** 18);
-
-          console.log("stakingbbal", info);
+          const nftbal = await NFT_Balance()
+          setNFTbalance(nftbal)
+          const nftuserinfo = await NFT_Staking_Balance_and_userinfo()
+          setNFTStakeBalance(nftuserinfo[2])
+          const nftharvestreward = await NFT_Staking_Reward_to_harvest()
+          setNFTRewardtoHarvest(nftharvestreward)
+          // console.log("nftharvestreward", nftharvestreward);
         }
       } catch (error) {
         console.log("error", error);
@@ -88,52 +105,97 @@ export default function Staking() {
   };
 
   const Approve_Single_staking_Staking_token = async () => {
-    if (checkApprove) {
-      const data = await Staking_Ryoshi_Token(stakeAmount);
-      if (data.status) {
-        tost();
+    try {
+      if (checkApprove) {
+        const data = await Staking_Ryoshi_Token(stakeAmount);
+        if (data.status) {
+          tost();
+        }
+      } else {
+        await Approv_Ryoshi_Staking_Contract();
+        setCheckApprove(data.status);
+        const data = await Staking_Ryoshi_Token(stakeAmount);
+        if (data.status) {
+          tost();
+        }
       }
-    } else {
-      await Approv_Ryoshi_Staking_Contract();
-      setCheckApprove(data.status);
-      const data = await Staking_Ryoshi_Token(stakeAmount);
-      if (data.status) {
-        tost();
-      }
+    } catch (error) {
+      console.log(error)
     }
   };
 
   const Approve_LP_and_Stake_LP = async () => {
-    if (CheckApproveofTPtoken) {
-      const data = await Staking_LP_Token();
-      if (data.status) {
-        tost();
+    try {
+      if (CheckApproveofTPtoken) {
+        const data = await Staking_LP_Token();
+        if (data.status) {
+          tost();
+        }
+      } else {
+        const data1 = await Approv_Ryoshi_ETH_Contract();
+        setCheckApproveforLP(data1.status);
+        const data = await Staking_LP_Token();
+        if (data.status) {
+          tost();
+        }
       }
-    } else {
-      await Approv_Ryoshi_ETH_Contract();
-      setCheckApproveforLP(data.status);
-      const data = await Staking_LP_Token();
-      if (data.status) {
-        tost();
-      }
+    } catch (error) {
+      console.log(error)
     }
   };
+
+  const Approve_NFT_and_Stake_NFT =async()=>{
+    try {
+      const data = await get_user_owned_NFT()
+      if(data.lenght > 0){
+        await Approv_NFT_Staking_Contract(data[0])
+        const data2 = await NFT_stake(data[0])
+        if (data2.status) {
+          tost();
+        }
+      }
+      else{
+        alert("0 NFT Balance")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const Unstaking_Ryoshi = async () => {
     await Unstaking_Ryoshi_Token(stakeAmount * 10 ** 18);
   };
 
   const Harverting = async () => {
-    const data = await Harvest_Ryoshi_Token_Staking();
+    try {
+      const data = await Harvest_Ryoshi_Token_Staking();
     if (data.status) {
       tost();
     }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
+  const Harvesting_NFT_reward = async(id)=>{
+    try {
+      const data = await NFT_Staking_harvest(id)
+      if (data.status) {
+        tost();
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const LP_harvest = async () => {
-    const data = await LP_Token_Harvest();
+    try {
+      const data = await LP_Token_Harvest();
     if (data.status) {
       tost();
+    }
+    } catch (error) {
+      console.log(error)
     }
   };
 
@@ -150,11 +212,26 @@ export default function Staking() {
     }
   };
   const LPTokenUnstake = async () => {
-    const data = await LP_Token_Harvest(0, stakeAmountLP / 10 ** 18);
-    if (data.status) {
-      tost();
+    try {
+      const data = await LP_Token_Harvest(0, stakeAmountLP / 10 ** 18);
+      if (data.status) {
+        tost();
+      }
+    } catch (error) {
+      console.log(error)
     }
   };
+
+  const Unstake_NFTs = async(id)=>{
+      try {
+        const data = await NFT_Unstaking(id)
+        if (data.status) {
+          tost();
+        }
+      } catch (error) {
+        console.log(error)
+      }
+  }
 
   const MaxStaking = async () => {
     setStakeAmount(balace_ryoshi);
@@ -566,10 +643,10 @@ export default function Staking() {
               />
             </p>
             <h6 className="mt-4">
-              Your Balance: <span>0.000</span>
+              Your Balance: <span>{NFTbalance}</span>
             </h6>
             <h6 className="mt-4">
-              Staked Amount: <span>0.000</span>
+              Staked Amount: <span>{NFTStakeBalance}</span>
             </h6>
             <hr />
             <div className="apr d-flex justify-content-between">
@@ -584,7 +661,7 @@ export default function Staking() {
               <span>Harvest Lockup</span>
               <span>Complete</span>
             </div>
-            <button className="btnFill py-3 mt-4">Approve Contract</button>
+            <button className="btnFill py-3 mt-4" onClick={()=>Approve_NFT_and_Stake_NFT()}>Approve Contract</button>
             {/* <p>Staked</p> */}
             {/* <div
               className="py-3 rounded-1 px-3"
@@ -614,10 +691,13 @@ export default function Staking() {
               </span>
             </div> */}
             <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-5 my-auto">1154789.1548...</h5>
-              <button className="btnFill py-3" style={{ width: "fit-content" }}>
+              <h5 className="text-light fs-5 my-auto">{NFTRewardtoHarvest.toFixed(2)}</h5>
+              <button className="btnFill py-3" style={{ width: "fit-content" }} onClick={()=>Harvesting_NFT_reward(0)}>
                 Harvest
               </button>
+              {NFTStakeBalance > 0 ? <button className="btnFill py-3" style={{ width: "fit-content" }} onClick={()=>Unstake_NFTs(0)}>
+                Unstake
+              </button> : ''}
             </div>
           </div>
         </div>

@@ -7,25 +7,7 @@ import {Staking} from './Contracts/Staking'
 import {Ryoshi} from './../Web3/Contracts/Ryoshi'
 import { getContract } from './Web3_Funtions'
 
-export const NFT_Balance = async () => {
-  try {
-    const contract = await getContract(NFT, ENV.NFT)
-    const balance = await contract.methods.balanceOf(window.address)
-    return balance
-  } catch (error) {
-    console.log(error)
-  }
-}
 
-export const NFT_Staking_Balance = async () => {
-  try {
-    const contract = await getContract(NFT_staking, ENV.NFT_STAKINGL)
-    const balance = await contract.methods.balanceOf(window.address);
-    return balance
-  } catch (error) {
-    console.log(error)
-  }
-}
 
 export const Approv_Ryoshi_Staking_Contract = async () => {
   try {
@@ -203,3 +185,90 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
         console.log(error)
       }
   }
+
+  export const Approv_NFT_Staking_Contract = async (id) => {
+    try {
+      const contract = await getContract(NFT, ENV.NFT)
+      const data = await contract.methods
+        .approve(
+          ENV.NFT_STAKINGL,
+          id
+        )
+        .send({ from: window.address })
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  export const NFT_Balance = async () => {
+    try {
+      const contract = await getContract(NFT, ENV.NFT)
+      const balance = await contract.methods.balanceOf(window.address).call();
+      return balance
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  export const NFT_Staking_Balance_and_userinfo = async () => {
+    try {
+      const contract = await getContract(NFT_staking, ENV.NFT_STAKINGL)
+      const balance = await contract.methods.userInfo(window.address).call();
+      return balance
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  export const NFT_Staking_Reward_to_harvest = async () => {
+    try {
+      const contract = await getContract(NFT_staking, ENV.NFT_STAKINGL)
+      const balance = await contract.methods.pendingRewards(window.address).call();
+      return Number(balance)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  export const NFT_Staking_harvest = async () => {
+    try {
+      const contract = await getContract(NFT_staking, ENV.NFT_STAKINGL)
+      const balance = await contract.methods.getReward().send({from:window.address});
+      return balance
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  export const NFT_Unstaking = async (id) => {
+    try {
+      const contract = await getContract(NFT_staking, ENV.NFT_STAKINGL)
+      const balance = await contract.methods.unstake(id).send({from:window.address});
+      return balance
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  export const get_user_owned_NFT = async (id) => {
+    try {
+      const contract = await getContract(NFT_staking, ENV.NFT_STAKINGL)
+      const balance = await contract.methods.walletOfOwner(window.address).call();
+      return balance
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  export const NFT_stake = async (id) => {
+    try {
+      const contract = await getContract(NFT, ENV.NFT)
+      const balance = await contract.methods.stake(id).send({from:window.address});
+      return balance
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+ 
