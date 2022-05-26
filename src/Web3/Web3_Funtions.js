@@ -24,3 +24,13 @@ export const getContract = async(abi, address)=> {
         console.log(error)
     }
 }
+
+export const towie = async(amount)=> {
+    try {
+        console.log("to string",amount)
+        const number = await web3.utils.toWei(amount.toString(), 'ether');
+        return number
+    } catch (error) {
+        console.log(error)
+    }
+}

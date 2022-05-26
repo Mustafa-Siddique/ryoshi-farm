@@ -5,7 +5,7 @@ import {NFT} from './Contracts/NFT'
 import {NFT_staking} from './Contracts/NFT_Staking'
 import {Staking} from './Contracts/Staking'
 import {Ryoshi} from './../Web3/Contracts/Ryoshi'
-import { getContract } from './Web3_Funtions'
+import { getContract,towie } from './Web3_Funtions'
 
 
 
@@ -62,9 +62,11 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
 
   export const Staking_Ryoshi_Token = async (amount) => {
     try {
+        const a = await towie(amount)
+        console.log(a)
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
         const data = await contract.methods
-          .stake(amount, true)
+          .stake(a, true)
           .send({from: window.address})
         return data
       } catch (error) {
@@ -73,9 +75,11 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
   }
   export const Unstaking_Ryoshi_Token = async (amount) => {
     try {
+      const a = await towie(amount)
+      console.log(a)
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
         const data = await contract.methods
-          .withdrawFunds(amount)
+          .withdrawFunds(a)
           .send({from: window.address})
         return data
       } catch (error) {
@@ -136,9 +140,11 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
 
   export const Staking_LP_Token = async (amount,pid) => {
     try {
+        const a = await towie(amount)
+        console.log(a)
         const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
         const data = await contract.methods
-          .Deposit(window.address, pid,amount)
+          .deposit( 0,a)
           .send({from: window.address})
         return data
       } catch (error) {
@@ -178,8 +184,10 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
 
   export const LP_Token_UnStake = async (pid,amount) => {
     try {
+      const a = await towie(amount)
+      console.log(a)
       const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
-        const data = await contract.methods.Withdraw(window.address,pid,amount).call().send({from: window.address})
+        const data = await contract.methods.Withdraw(window.address,pid,a).call().send({from: window.address})
         return data
       } catch (error) {
         console.log(error)
@@ -253,7 +261,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
 
   export const get_user_owned_NFT = async (id) => {
     try {
-      const contract = await getContract(NFT_staking, ENV.NFT_STAKINGL)
+      const contract = await getContract(NFT, ENV.NFT)
       const balance = await contract.methods.walletOfOwner(window.address).call();
       return balance
     } catch (error) {
@@ -262,7 +270,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
   }
   export const NFT_stake = async (id) => {
     try {
-      const contract = await getContract(NFT, ENV.NFT)
+      const contract = await getContract(NFT_staking, ENV.NFT_STAKINGL)
       const balance = await contract.methods.stake(id).send({from:window.address});
       return balance
     } catch (error) {

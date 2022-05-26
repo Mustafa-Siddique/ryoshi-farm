@@ -81,7 +81,7 @@ export default function Staking() {
           setNFTStakeBalance(nftuserinfo[2])
           const nftharvestreward = await NFT_Staking_Reward_to_harvest()
           setNFTRewardtoHarvest(nftharvestreward)
-          // console.log("nftharvestreward", nftharvestreward);
+          // console.log("stakingbbal", stakingbbal);
         }
       } catch (error) {
         console.log("error", error);
@@ -111,6 +111,7 @@ export default function Staking() {
         if (data.status) {
           tost();
         }
+
       } else {
         await Approv_Ryoshi_Staking_Contract();
         setCheckApprove(data.status);
@@ -127,14 +128,14 @@ export default function Staking() {
   const Approve_LP_and_Stake_LP = async () => {
     try {
       if (CheckApproveofTPtoken) {
-        const data = await Staking_LP_Token();
+        const data = await Staking_LP_Token(stakeAmountLP);
         if (data.status) {
           tost();
         }
       } else {
         const data1 = await Approv_Ryoshi_ETH_Contract();
         setCheckApproveforLP(data1.status);
-        const data = await Staking_LP_Token();
+        const data = await Staking_LP_Token(stakeAmountLP);
         if (data.status) {
           tost();
         }
@@ -147,7 +148,8 @@ export default function Staking() {
   const Approve_NFT_and_Stake_NFT =async()=>{
     try {
       const data = await get_user_owned_NFT()
-      if(data.lenght > 0){
+      console.log("NFT",data)
+      if(data.length > 0){
         await Approv_NFT_Staking_Contract(data[0])
         const data2 = await NFT_stake(data[0])
         if (data2.status) {
@@ -163,7 +165,7 @@ export default function Staking() {
   }
 
   const Unstaking_Ryoshi = async () => {
-    await Unstaking_Ryoshi_Token(stakeAmount * 10 ** 18);
+    await Unstaking_Ryoshi_Token(stakeAmount);
   };
 
   const Harverting = async () => {
@@ -213,7 +215,7 @@ export default function Staking() {
   };
   const LPTokenUnstake = async () => {
     try {
-      const data = await LP_Token_Harvest(0, stakeAmountLP / 10 ** 18);
+      const data = await LP_Token_Harvest(0, stakeAmountLP);
       if (data.status) {
         tost();
       }
