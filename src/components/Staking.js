@@ -50,10 +50,13 @@ export default function Staking() {
   const [stakeAmount, setStakeAmount] = useState(0);
   const [harvestamount, setHarvestAmount] = useState(0);
   const [stakingBalance, setStakingBalance] = useState(0);
+  const [BalanceToUnstake, setBaltounstale] = useState(0)
   const [stakeAmountLP, setStakeAmountLP] = useState(0);
+  const [unstakeAmountLP, setUnStakeAmountLP] = useState(0);
   const [CheckApproveofTPtoken, setCheckApproveforLP] = useState(false);
   const [LPbalance, setLPbalance] = useState(0);
   const [LPstakingBalance, setLPstakingBalance] = useState(0);
+
   const [LPharvestamount, setLPharvestamount] = useState(0);
   const [NFTbalance, setNFTbalance] = useState(0);
   const [NFTStakeBalance, setNFTStakeBalance] = useState(0);
@@ -70,10 +73,12 @@ export default function Staking() {
 
           const stakingbbal = await Current_staking_balance();
           setStakingBalance(stakingbbal.stakingBalance / 10 ** 18);
+          setBaltounstale(stakingbbal.stakingBalance)
           const data = await Calculate_Pending_Reward();
           setHarvestAmount(data[0] / 10 ** 18);
           const info = await LP_Token_User_Information();
           setLPstakingBalance(info[0] / 10 ** 18);
+          setUnStakeAmountLP(info[0])
           setLPharvestamount(info[1] / 10 ** 18);
           const nftbal = await NFT_Balance()
           setNFTbalance(nftbal)
@@ -165,7 +170,7 @@ export default function Staking() {
   }
 
   const Unstaking_Ryoshi = async () => {
-    await Unstaking_Ryoshi_Token(stakeAmount);
+    await Unstaking_Ryoshi_Token(BalanceToUnstake);
   };
 
   const Harverting = async () => {
@@ -207,15 +212,19 @@ export default function Staking() {
       setCheckApprove(true);
     }
   };
+
+
   const CheckifApproveofTPtoken = async () => {
     const data = await Allowance_of_LP_Token_contract();
     if (data > 0) {
       setCheckApproveforLP(true);
     }
   };
+
+
   const LPTokenUnstake = async () => {
     try {
-      const data = await LP_Token_Harvest(0, stakeAmountLP);
+      const data = await LP_Token_Harvest(0, unstakeAmountLP);
       if (data.status) {
         tost();
       }
@@ -234,6 +243,7 @@ export default function Staking() {
         console.log(error)
       }
   }
+
 
   const MaxStaking = async () => {
     setStakeAmount(balace_ryoshi);

@@ -13,16 +13,18 @@ export default function Navbar() {
 
   const [address, setAddress] = useState()
 
+  useEffect(()=>{
+    login();
+  },[])
+
   const login = async()=>{
     const data = await window.ethereum.enable();
     if(data){
-      
       const address = await getUserAddress()
       window.address = address
       setAddress(address)
       console.log(' user address ', address)
     }
-    
   }
   
   window.ethereum.on('accountsChanged', (accounts) => {
@@ -36,8 +38,10 @@ export default function Navbar() {
     return first + '...' + second
   }
 
+  
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark">
+    <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
           <img src={logo} alt="" /> &nbsp;
@@ -109,36 +113,36 @@ export default function Navbar() {
               </ul>
             </li> */}
             <li className="nav-item">
-              <a className="nav-link" href="https://ryoshitoken.com/" target="_blank"  rel="noreferrer">
+              <a className="nav-link" href="https://www.dextools.io/app/ether/pair-explorer/0x5e4d0baf57a68956180580b94c1271c37558d300">
                 Back to main website
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="https://www.dextools.io/app/ether/pair-explorer/0x5e4d0baf57a68956180580b94c1271c37558d300" target="_blank"  rel="noreferrer">
+              <a className="nav-link" href="https://www.dextools.io/app/ether/pair-explorer/0x5e4d0baf57a68956180580b94c1271c37558d300">
                 Swap
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/">
+              <a className="nav-link" href="#">
                 Farm
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="http://ryoshibillionaireclubnft.com/" target="_blank"  rel="noreferrer">
+              <a className="nav-link" href="#">
                 NFT
               </a>
             </li>
             <li className="nav-item">
-              <a className="headerSocials" href="https://www.reddit.com/r/RyoshiTokenBSC" target="_blank"  rel="noreferrer">
+              <a className="headerSocials" href="#">
                 <FaRedditAlien />
               </a>
-              <a className="headerSocials" href="https://t.co/E8u0GkUXP4?amp=1" target="_blank"  rel="noreferrer">
+              <a className="headerSocials" href="#">
                 <FaDiscord />
               </a>
-              <a className="headerSocials" href="https://twitter.com/TokenRyoshi" target="_blank"  rel="noreferrer">
+              <a className="headerSocials" href="#">
                 <FaTwitter />
               </a>
-              <a className="headerSocials" href="https://t.me/ryoshitokenofficial" target="_blank"  rel="noreferrer">
+              <a className="headerSocials" href="#">
                 <FaTelegramPlane />
               </a>
             </li>

@@ -66,7 +66,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
         console.log(a)
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
         const data = await contract.methods
-          .stake(a, true)
+          .stake(a, false)
           .send({from: window.address})
         return data
       } catch (error) {
@@ -143,9 +143,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
         const a = await towie(amount)
         console.log(a)
         const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
-        const data = await contract.methods
-          .deposit( 0,a)
-          .send({from: window.address})
+        const data = await contract.methods.deposit(0,a).send({from: window.address})
         return data
       } catch (error) {
         console.log(error)
