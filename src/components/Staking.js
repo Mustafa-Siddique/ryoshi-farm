@@ -170,7 +170,14 @@ export default function Staking() {
   }
 
   const Unstaking_Ryoshi = async () => {
-    await Unstaking_Ryoshi_Token(BalanceToUnstake);
+    try {
+      const data = await Unstaking_Ryoshi_Token(BalanceToUnstake);
+    if(data.status){
+      tost();
+    }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const Harverting = async () => {
