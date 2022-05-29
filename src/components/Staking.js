@@ -5,8 +5,7 @@ import nft from "../images/nombre.png";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { ImCopy } from "react-icons/im";
 import {RiQuestionFill} from 'react-icons/ri'
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
+import ReactTooltip from 'react-tooltip';
 import {
   Ryoshi_Token_balance,
   Allowance_of_single_staking_contract,
@@ -397,7 +396,7 @@ export default function Staking() {
               Your Balance: <span>{balace_ryoshi.toFixed(2)}</span>
             </h6>
             <h6 className="mt-4">
-              Staked Amount: <span>{stakingBalance.toFixed(2)}</span>
+             Staked Amount: <span>{stakingBalance.toFixed(2)}</span>
             </h6>
             <hr />
             <div className="apr d-flex justify-content-between">
