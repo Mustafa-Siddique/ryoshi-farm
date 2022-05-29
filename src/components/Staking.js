@@ -4,6 +4,9 @@ import eth from "../images/eth.png";
 import nft from "../images/nombre.png";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import { ImCopy } from "react-icons/im";
+import {RiQuestionFill} from 'react-icons/ri'
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import {
   Ryoshi_Token_balance,
   Allowance_of_single_staking_contract,
@@ -26,7 +29,8 @@ import {
   NFT_Balance,
   NFT_Staking_Reward_to_harvest,
   NFT_Staking_harvest,
-  NFT_Unstaking
+  NFT_Unstaking,
+  LP_Token_UnStake
 } from "./../Web3/Contract_methods";
 import LiveStat from "./LiveStat";
 import toast, { Toaster } from "react-hot-toast";
@@ -77,8 +81,11 @@ export default function Staking() {
           const data = await Calculate_Pending_Reward();
           setHarvestAmount(data[0] / 10 ** 18);
           const info = await LP_Token_User_Information();
+
           setLPstakingBalance(info[0] / 10 ** 18);
+
           setUnStakeAmountLP(info[0])
+
           setLPharvestamount(info[1] / 10 ** 18);
           const nftbal = await NFT_Balance()
           setNFTbalance(nftbal)
@@ -92,7 +99,7 @@ export default function Staking() {
         console.log("error", error);
       }
     };
-
+ console.log("unstakeAmountLP, LPstakingBalance",unstakeAmountLP, LPstakingBalance)
     setInterval(() => {
       try {
         init();
@@ -107,22 +114,50 @@ export default function Staking() {
     setBalace_Ryoshi(bal / 10 ** 18);
     const lpbal = await LP_Token_Balance();
     setLPbalance(lpbal / 10 ** 18);
+
   };
 
+  // if(BalanceToUnstake <= 0){
+  //   const data = await Unstaking_Ryoshi_Token(BalanceToUnstake,true);
+  //   if(data.status){
+  //     tost();
+  //   }
+  // }
+  // else{
+  //   const data = await Unstaking_Ryoshi_Token(BalanceToUnstake,false);
+  //   if(data.status){
+  //     tost();
+  //   }
+  // }
   const Approve_Single_staking_Staking_token = async () => {
     try {
       if (checkApprove) {
-        const data = await Staking_Ryoshi_Token(stakeAmount);
-        if (data.status) {
-          tost();
+        if(BalanceToUnstake <= 0){
+          const data = await Staking_Ryoshi_Token(stakeAmount,true);
+          if (data.status) {
+            tost();
+          }
         }
-
+        else{
+          const data = await Staking_Ryoshi_Token(stakeAmount,false);
+          if (data.status) {
+            tost();
+          }
+        }
       } else {
-        await Approv_Ryoshi_Staking_Contract();
+        const data = await Approv_Ryoshi_Staking_Contract();
         setCheckApprove(data.status);
-        const data = await Staking_Ryoshi_Token(stakeAmount);
-        if (data.status) {
-          tost();
+        if(BalanceToUnstake <= 0){
+          const data = await Staking_Ryoshi_Token(stakeAmount,true);
+          if (data.status) {
+            tost();
+          }
+        }
+        else{
+          const data = await Staking_Ryoshi_Token(stakeAmount,false);
+          if (data.status) {
+            tost();
+          }
         }
       }
     } catch (error) {
@@ -231,7 +266,7 @@ export default function Staking() {
 
   const LPTokenUnstake = async () => {
     try {
-      const data = await LP_Token_Harvest(0, unstakeAmountLP);
+      const data = await LP_Token_UnStake(0, unstakeAmountLP);
       if (data.status) {
         tost();
       }

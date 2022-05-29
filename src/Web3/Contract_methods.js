@@ -60,13 +60,13 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
       }
   }
 
-  export const Staking_Ryoshi_Token = async (amount) => {
+  export const Staking_Ryoshi_Token = async (amount,bool) => {
     try {
         const a = await towie(amount)
-        console.log(a)
+        console.log(a,bool)
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
         const data = await contract.methods
-          .stake(a, false)
+          .stake(a, bool)
           .send({from: window.address})
         return data
       } catch (error) {
@@ -170,10 +170,10 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
       }
   }
 
-  export const LP_Token_Harvest = async (pid) => {
+  export const LP_Token_Harvest = async (pid,amount) => {
     try {
       const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
-        const data = await contract.methods.harvest(0).send({from: window.address});
+        const data = await contract.methods.harvest(amount).send({from: window.address});
         return data
       } catch (error) {
         console.log(error)
@@ -185,7 +185,8 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
       const a = await towie(amount)
       console.log(a)
       const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
-        const data = await contract.methods.Withdraw(window.address,pid,a).call().send({from: window.address})
+      console.log("LP Staking Contract", contract)
+        const data = await contract.methods.withdraw(0).send({from: window.address})
         return data
       } catch (error) {
         console.log(error)
