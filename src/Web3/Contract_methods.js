@@ -24,6 +24,70 @@ export const Approv_Ryoshi_Staking_Contract = async () => {
   }
 }
 
+export const stop_single_staking = async () => {
+  try {
+    const contract = await getContract(Staking, ENV.SINGLE_STAKING)
+    const data = await contract.methods
+      .stopStaking().send({from: window.address})
+    
+    return Number(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+export const single_staking_reward_add = async (amount) => {
+  try {
+    const a = await towie(amount)
+    const contract = await getContract(Staking, ENV.SINGLE_STAKING)
+    const data = await contract.methods
+      .addRewards(a).send({from: window.address})
+    
+    return Number(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const single_staking_set_fee_address = async (address ) => {
+  try {
+    const contract = await getContract(Staking, ENV.SINGLE_STAKING)
+    const data = await contract.methods
+      .setFeeAddress(address).send({from: window.address})
+  
+    return Number(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+
+export const single_staking_set_withdraw_fee = async (amount ) => {
+  try {
+    const a = await towie(amount)
+    const contract = await getContract(Staking, ENV.SINGLE_STAKING)
+    const data = await contract.methods
+      .setWithdrawFee(a).send({from: window.address})
+
+    return Number(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const start_single_staking = async () => {
+  try {
+    const contract = await getContract(Staking, ENV.SINGLE_STAKING)
+    const data = await contract.methods
+      .startStaking().send({from: window.address})
+      
+    return Number(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 export const Allowance_of_single_staking_contract = async () => {
   try {
@@ -66,7 +130,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
         console.log(a,bool)
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
         const data = await contract.methods
-          .stake(a, bool)
+          .deposit(a)
           .send({from: window.address})
         return data
       } catch (error) {
@@ -79,7 +143,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
       console.log(a)
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
         const data = await contract.methods
-          .withdrawFunds(a)
+          .withdraw()
           .send({from: window.address})
         return data
       } catch (error) {
@@ -91,7 +155,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
     try {
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
         const data = await contract.methods
-          .calculateRewards(window.address)
+          .getRewardInfo()
           .call();
         return data
       } catch (error) {
@@ -102,9 +166,11 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
   export const Current_staking_balance = async () => {
     try {
         const contract = await getContract(Staking, ENV.SINGLE_STAKING)
+        
         const data = await contract.methods
-          .stakeholders(window.address)
+          .getAccountVaultBalance(window.address)
           .call();
+         
         return data
       } catch (error) {
         console.log(error)
@@ -173,6 +239,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
   export const LP_Token_Harvest = async (pid,amount) => {
     try {
       const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
+      console.log("farming staking ",contract)
         const data = await contract.methods.harvest(amount).send({from: window.address});
         return data
       } catch (error) {
@@ -186,7 +253,7 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
       console.log(a)
       const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
       console.log("LP Staking Contract", contract)
-        const data = await contract.methods.withdraw(0).send({from: window.address})
+        const data = await contract.methods.withdraw(0,a).send({from: window.address})
         return data
       } catch (error) {
         console.log(error)

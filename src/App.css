@@ -146,3 +146,8 @@
   color: #1A1A1A;
   background-color: #8d7948;
 }
+
+.admin .row .col{
+ width: 450px;
+ background-color: #2D2D2D;
+}

@@ -2,13 +2,21 @@ export const Staking = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "signatureAddress_",
-        type: "address",
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
       },
+    ],
+    name: "addRewards",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
       {
         internalType: "address",
-        name: "stakingTokenAddress",
+        name: "Token",
         type: "address",
       },
     ],
@@ -16,22 +24,163 @@ export const Staking = [
     type: "constructor",
   },
   {
+    inputs: [],
+    name: "AddRewardsFailed",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "deposit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "DepositFailed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ExitFeesFailed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "exitWhileCollecting",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "exitWhileStaking",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "MaxStaked",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NoZeroValues",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotAuthorized",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotCollecting",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotCompleted",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotStaking",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "RewardFailed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "stopStaking",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "WithdrawFailed",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
-        indexed: false,
-        internalType: "string",
-        name: "field",
-        type: "string",
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
       },
       {
         indexed: false,
         internalType: "uint256",
-        name: "value",
+        name: "amount",
         type: "uint256",
       },
     ],
-    name: "ConfigUpdate",
+    name: "Deposit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "fees",
+        type: "uint256",
+      },
+    ],
+    name: "ExitWithFees",
     type: "event",
   },
   {
@@ -54,163 +203,120 @@ export const Staking = [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "stakeholder_",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "reward_",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "periods_",
-        type: "uint256",
-      },
-    ],
-    name: "Rewarding",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "stakeholder_",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "stake_",
-        type: "uint256",
-      },
-    ],
-    name: "Staking",
-    type: "event",
-  },
-  {
     inputs: [
       {
         internalType: "address",
-        name: "sender",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "weight",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "signature",
-        type: "bytes",
-      },
-    ],
-    name: "_recoverSigner",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
+        name: "_newFeeAddress",
         type: "address",
       },
     ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "baseInterest",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "stakeholderAddress",
-        type: "address",
-      },
-    ],
-    name: "calculateRewards",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "reward",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "stakingBalance",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "weight",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "startDate",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "interestDate",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "newStake",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "newWeight",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct RyoshiStaking.StakeHolder",
-        name: "stakeholder",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bool",
-        name: "withdrawl",
-        type: "bool",
-      },
-    ],
-    name: "claimRewards",
+    name: "setFeeAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_newWithdrawFee",
+        type: "uint256",
+      },
+    ],
+    name: "setWithdrawFee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
     inputs: [],
-    name: "cooldown",
+    name: "StakingCompleted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [],
+    name: "StakingStarted",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "startStaking",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "rewards",
+        type: "uint256",
+      },
+    ],
+    name: "Withdraw",
+    type: "event",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
+  },
+  {
+    inputs: [],
+    name: "feeAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "getAccountErc20Balance",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "getAccountVaultBalance",
     outputs: [
       {
         internalType: "uint256",
@@ -223,11 +329,31 @@ export const Staking = [
   },
   {
     inputs: [],
-    name: "extraInterest",
+    name: "getRewardInfo",
     outputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "lastRewardUpdateTimeStamp",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "rewardRate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "pendingVaultRewards",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "claimedVaultRewards",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "remainingVaultRewards",
         type: "uint256",
       },
     ],
@@ -236,33 +362,7 @@ export const Staking = [
   },
   {
     inputs: [],
-    name: "interestDecimals",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "interestPeriod",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "maxWeight",
+    name: "getWithdrawFee",
     outputs: [
       {
         internalType: "uint256",
@@ -288,89 +388,7 @@ export const Staking = [
   },
   {
     inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "signatureAddress",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "instant",
-        type: "bool",
-      },
-    ],
-    name: "stake",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "stakeholders",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "stakingBalance",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "weight",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "startDate",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "interestDate",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "newStake",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "newWeight",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "stakingToken",
+    name: "token",
     outputs: [
       {
         internalType: "contract IERC20",
@@ -383,155 +401,40 @@ export const Staking = [
   },
   {
     inputs: [],
-    name: "totalStake",
+    name: "vault",
     outputs: [
       {
+        internalType: "enum RyoshiStaking.Status",
+        name: "status",
+        type: "uint8",
+      },
+      {
         internalType: "uint256",
-        name: "",
+        name: "stakingPeriod",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "startTimestamp",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "stopTimestamp",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "totalVaultShares",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "totalVaultRewards",
         type: "uint256",
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-    ],
-    name: "updateBaseInterest",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-    ],
-    name: "updateCoolDownPeriod",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-    ],
-    name: "updateExtraInterest",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-    ],
-    name: "updateInterestDecimals",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-    ],
-    name: "updateInterestPeriod",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "value",
-        type: "address",
-      },
-    ],
-    name: "updateSignatureAddress",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "weight_",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "signature",
-        type: "bytes",
-      },
-      {
-        internalType: "bool",
-        name: "instant",
-        type: "bool",
-      },
-    ],
-    name: "updateWeight",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "withdrawFunds",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "withdrawRemainingFunds",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];

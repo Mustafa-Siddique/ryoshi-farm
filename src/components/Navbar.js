@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from "react";
+import { Link } from "react-router-dom";
 import {
   FaRedditAlien,
   FaDiscord,
@@ -131,6 +132,9 @@ export default function Navbar() {
               <a className="nav-link" href="#">
                 NFT
               </a>
+            </li>
+            <li className="nav-item">
+            <Link className="nav-link" to="/admin">Admin</Link>
             </li>
             <li className="nav-item">
               <a className="headerSocials" href="#">

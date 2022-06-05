@@ -75,10 +75,10 @@ export default function Staking() {
         
 
           const stakingbbal = await Current_staking_balance();
-          setStakingBalance(stakingbbal.stakingBalance / 10 ** 18);
-          setBaltounstale(stakingbbal.stakingBalance)
+          setStakingBalance(stakingbbal/ 10 ** 18);
+          setBaltounstale(stakingbbal)
           const data = await Calculate_Pending_Reward();
-          setHarvestAmount(data[0] / 10 ** 18);
+          setHarvestAmount(Number(data.pendingVaultRewards));
           const info = await LP_Token_User_Information();
 
           setLPstakingBalance(info[0] / 10 ** 18);
@@ -92,13 +92,13 @@ export default function Staking() {
           setNFTStakeBalance(nftuserinfo[2])
           const nftharvestreward = await NFT_Staking_Reward_to_harvest()
           setNFTRewardtoHarvest(nftharvestreward)
-          // console.log("stakingbbal", stakingbbal);
+         
         }
       } catch (error) {
         console.log("error", error);
       }
     };
- console.log("unstakeAmountLP, LPstakingBalance",unstakeAmountLP, LPstakingBalance)
+ 
     setInterval(() => {
       try {
         init();
@@ -399,16 +399,16 @@ export default function Staking() {
              Staked Amount: <span>{stakingBalance.toFixed(2)}</span>
             </h6>
             <hr />
-            <div className="apr d-flex justify-content-between">
+            {/* <div className="apr d-flex justify-content-between">
               <span>APR</span>
               <span>16.457%</span>
+            </div> */}
+            <div className="apr d-flex justify-content-between">
+              <span>Withdrawl Fee</span>
+              <span>5%</span>
             </div>
             <div className="apr d-flex justify-content-between">
-              <span>Deposit Fee</span>
-              <span>3%</span>
-            </div>
-            <div className="apr d-flex justify-content-between">
-              <span>Harvest Lockup</span>
+              <span>Withdrawl Lockup</span>
               <span>12 Hour(s)</span>
             </div>
             <div className="d-flex inputHarvest">
@@ -441,17 +441,17 @@ export default function Staking() {
             ) : (
               ""
             )}
-            <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-5 my-auto">
+            <div className="d-flex justify-content-center mt-3">
+              <h5 className="text-light fs-5 my-auto text-center">
                 {harvestamount.toFixed(2)}
               </h5>
-              <button
-                onClick={() => Harverting()}
+              {/* <button
+                onClick={() => Harverting()}s
                 className="btnFill py-3"
                 style={{ width: "fit-content" }}
               >
                 Harvest
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -538,16 +538,16 @@ export default function Staking() {
               Staked Amount: <span>{LPstakingBalance.toFixed(2)}</span>
             </h6>
             <hr />
-            <div className="apr d-flex justify-content-between">
+            {/* <div className="apr d-flex justify-content-between">
               <span>APR</span>
               <span>16.457%</span>
+            </div> */}
+            <div className="apr d-flex justify-content-between">
+              <span>Withdrawl Fee</span>
+              <span>4%</span>
             </div>
             <div className="apr d-flex justify-content-between">
-              <span>Deposit Fee</span>
-              <span>3%</span>
-            </div>
-            <div className="apr d-flex justify-content-between">
-              <span>Harvest Lockup</span>
+              <span>Withdrawl Lockup</span>
               <span>Complete</span>
             </div>
             <div className="d-flex inputHarvest">
@@ -608,17 +608,17 @@ export default function Staking() {
                 154877954... RYOSHI
               </span>
             </div> */}
-            <div className="d-flex justify-content-between mt-3">
-              <h5 className="text-light fs-5 my-auto">
+            <div className="d-flex mt-3 justify-content-center">
+              <h5 className="text-light fs-5 my-auto text-center">
                 {LPharvestamount.toFixed(2)}
               </h5>
-              <button
+              {/* <button
                 className="btnFill py-3"
                 style={{ width: "fit-content" }}
                 onClick={() => LP_harvest()}
               >
                 Harvest
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -702,10 +702,10 @@ export default function Staking() {
               Staked Amount: <span>{NFTStakeBalance}</span>
             </h6>
             <hr />
-            <div className="apr d-flex justify-content-between">
+            {/* <div className="apr d-flex justify-content-between">
               <span>APR</span>
               <span>16.457%</span>
-            </div>
+            </div> */}
             <div className="apr d-flex justify-content-between">
               <span>Deposit Fee</span>
               <span>3%</span>
