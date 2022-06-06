@@ -427,7 +427,7 @@ export default function Staking() {
             <hr />
             <div className="apr d-flex justify-content-between">
               <span>Status</span>
-              <span>{status == 0 ? "Not Started" : status == 1 ? '' : 'Completed'}</span>
+              <span>{status == 0 ? "Collecting" : status == 1 ? 'Staking' : 'Completed'}</span>
             </div>
             <div className="apr d-flex justify-content-between">
               <span>Withdrawl Fee</span>
