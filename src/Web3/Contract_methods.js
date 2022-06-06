@@ -50,6 +50,26 @@ export const single_staking_reward_add = async (amount) => {
   }
 }
 
+export const single_staking_period = async () => {
+  try {
+    const contract = await getContract(Staking, ENV.SINGLE_STAKING)
+    const data = await contract.methods.vault().call();
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const single_staking_Emergency_Exit = async () => {
+  try {
+    const contract = await getContract(Staking, ENV.SINGLE_STAKING)
+    const data = await contract.methods.exitWhileStaking().send({from: window.address})
+    return Number(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const single_staking_set_fee_address = async (address ) => {
   try {
     const contract = await getContract(Staking, ENV.SINGLE_STAKING)
@@ -229,7 +249,17 @@ export const Harvest_Ryoshi_Token_Staking = async () => {
   export const LP_Token_User_Information = async () => {
     try {
       const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
+    
         const data = await contract.methods.userInfo(0,window.address).call()
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+  }
+  export const LP_Token_pool_info = async () => {
+    try {
+      const contract = await getContract(farming, ENV.LP_STAKING_FARMING)
+        const data = await contract.methods.poolInfo(0).call()
         return data
       } catch (error) {
         console.log(error)
